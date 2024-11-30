@@ -1,6 +1,7 @@
 // src/pages/Home/HomeNotLogged.js
 import React from 'react';
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HomePage = () => {
   return (
