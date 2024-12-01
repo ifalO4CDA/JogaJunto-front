@@ -5,16 +5,16 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import logoJogaJunto from "../assets/logoJogaJunto.png";
 import imagemPerfil from "../assets/Perfil.png";
 
-const Header = () => {
-    return (
-        <Navbar bg="light" expand="lg" className="shadow-sm">
+const Header = ({ onLoginClick }) => {
+  return (
+    <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
         {/* Logo */}
         <Navbar.Brand as={Link} to="/">
           <img
             src={logoJogaJunto}
             alt="Logo"
-            style={{ height: '40px' }} // Ajuste o tamanho da logo conforme necessário
+            style={{ height: "40px" }} // Ajuste o tamanho da logo conforme necessário
           />
         </Navbar.Brand>
 
@@ -23,23 +23,35 @@ const Header = () => {
           {/* Link para o Gestor de Quadra */}
           <Nav.Link as={Link} to="/gestor-quadra">Anuncie sua arena</Nav.Link>
 
-          {/* Condicional: Mostrar Login ou Perfil */}
-          {/* Se o usuário estiver logado, mostrar o link para o perfil */}
+          {/* Botão "Entrar" com cor verde */}
           <Nav.Item>
-            <Button variant="outline-primary" as={Link} to="/login" className="mx-2">
+            <Button
+              className="mx-2 d-flex align-items-center"
+              onClick={onLoginClick}
+              style={{
+                backgroundColor: "white", // Cor verde
+                borderColor: "#2FD151", // Borda verde
+                color: "#2FD151",
+              }}
+            >
+              <img
+                src={imagemPerfil} // Caminho para a imagem
+                alt="Perfil"
+                style={{
+                  width: "20px", // Tamanho da imagem
+                  height: "20px",
+                  borderRadius: "50%", // Deixa a imagem redonda
+                  marginRight: "8px", // Espaço entre a imagem e o texto
+                }}
+              />
               Entrar
             </Button>
           </Nav.Item>
-          
-          {/* <Nav.Item>
-            <Link to="/perfil">
-              <img src={imagemPerfil} alt="Perfil" className="rounded-circle" width="40" height="40" />
-            </Link>
-          </Nav.Item> */}
+
         </Nav>
       </Container>
     </Navbar>
-    );
+  );
 };
 
 export default Header;
