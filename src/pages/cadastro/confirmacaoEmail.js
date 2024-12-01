@@ -93,6 +93,19 @@ function ConfirmacaoEmail() {
                 placeholder="Número de Celular"
               />
             </div>
+            <div className="mb-3">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="E-mail"
+              />
+            </div>
+            <div className="mb-3">
+                type="passowrd"
+                className="form-control"
+                placeholder="Senha"
+              />
+            </div>
             
             <button type="submit" className="btn btn-primary w-100">
               Concluir

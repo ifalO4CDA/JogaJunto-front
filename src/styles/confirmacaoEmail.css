@@ -50,8 +50,11 @@ form {
 }
 
 form input {
-  width: 300px;
+  width: 400px;
   padding: 10px;
+  height: 372;
+  top: 366px;
+  left: 193px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
