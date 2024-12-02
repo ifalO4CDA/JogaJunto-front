@@ -33,10 +33,17 @@
     position: absolute;
     top: 50%;
     right: 10px;
+    height: 50px;
+    width: 50px;
     transform: translateY(-50%);
-    font-size: 20px;
     background: none;
     border: none;
+    &:hover {
+      background: none;
+    };
+    &:active {
+      background: none;
+    };
   }
   
   /* Botão "Continuar" */
@@ -46,8 +53,11 @@
     height: 50px;
     font-size: 16px;
     background-color: #2fd151; /* Cor verde */
-    border-color: #2fd151;
     color: white;
+    &:hover {
+      background-color: white;
+      color: #2fd151;
+    }
   }
   
   /* Botão "Cadastrar" */
