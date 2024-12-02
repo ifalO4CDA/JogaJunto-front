@@ -6,7 +6,7 @@ import Header from './components/header';
 import HomePage from './pages/home/homePage';
 import ArenaDetalhes from './pages/arena/arenaDetalhes'; 
 import LoginCadastro from './pages/cadastro/loginCadastro';
-// import ConfirmacaoEmail from './pages/cadastro/confirmacaoEmail';
+import ConfirmacaoEmail from './pages/cadastro/confirmacaoEmail';
 import DadosComplementares from './pages/cadastro/cadastroDadosComplementares';
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
 
       <Header/>
       <Routes>
+        <Route path="/confirmacao-email" element={<ConfirmacaoEmail/>}/>
         <Route path="/" element={<HomePage />} />
         <Route path="/arena/:id" element={<ArenaDetalhes />} />
         <Route path="/login" element={<LoginCadastro />} />
