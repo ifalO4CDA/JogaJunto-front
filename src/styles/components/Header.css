@@ -1,0 +1,27 @@
+/* Estilo da logo */
+.logo-jogajunto {
+    height: 40px; /* Ajuste o tamanho conforme necessário */
+  }
+  
+  /* Botão "Entrar" */
+  .btn-login {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-color: #2fd151; /* Borda verde */
+    color: #2fd151;
+/* quando passo o mouse por cima, as cores invertem */
+    &:hover {
+      background-color: #2fd151;
+      color: white;
+      border-color: black;
+    }
+  }
+  
+  .btn-login img {
+    width: 20px; /* Tamanho da imagem */
+    height: 20px;
+    border-radius: 50%; /* Deixa a imagem redonda */
+    margin-right: 8px; /* Espaço entre a imagem e o texto */
+  }
+  

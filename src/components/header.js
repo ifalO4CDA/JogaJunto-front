@@ -4,8 +4,9 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
 import logoJogaJunto from "../assets/logoJogaJunto.png";
 import imagemPerfil from "../assets/Perfil.png";
+import "../styles/components/Header.css"; // Importa o arquivo CSS
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onLoginClick, buttonRef }) => {
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
@@ -14,7 +15,7 @@ const Header = ({ onLoginClick }) => {
           <img
             src={logoJogaJunto}
             alt="Logo"
-            style={{ height: "40px" }} // Ajuste o tamanho da logo conforme necessário
+            className="logo-jogajunto" // Classe CSS para o estilo da logo
           />
         </Navbar.Brand>
 
@@ -26,28 +27,17 @@ const Header = ({ onLoginClick }) => {
           {/* Botão "Entrar" com cor verde */}
           <Nav.Item>
             <Button
-              className="mx-2 d-flex align-items-center"
+              ref={buttonRef}
+              className="btn-login mx-2" // Classe CSS para o botão
               onClick={onLoginClick}
-              style={{
-                backgroundColor: "white", // Cor verde
-                borderColor: "#2FD151", // Borda verde
-                color: "#2FD151",
-              }}
             >
               <img
                 src={imagemPerfil} // Caminho para a imagem
                 alt="Perfil"
-                style={{
-                  width: "20px", // Tamanho da imagem
-                  height: "20px",
-                  borderRadius: "50%", // Deixa a imagem redonda
-                  marginRight: "8px", // Espaço entre a imagem e o texto
-                }}
               />
               Entrar
             </Button>
           </Nav.Item>
-
         </Nav>
       </Container>
     </Navbar>
