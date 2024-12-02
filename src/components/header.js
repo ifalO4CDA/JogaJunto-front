@@ -4,17 +4,18 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
 import logoJogaJunto from "../assets/logoJogaJunto.png";
 import imagemPerfil from "../assets/Perfil.png";
+import "../styles/components/Header.css"; // Importa o arquivo CSS
 
-const Header = () => {
-    return (
-        <Navbar bg="light" expand="lg" className="shadow-sm">
+const Header = ({ onLoginClick, buttonRef }) => {
+  return (
+    <Navbar bg="light" expand="lg" className="shadow-sm">
       <Container>
         {/* Logo */}
         <Navbar.Brand as={Link} to="/">
           <img
             src={logoJogaJunto}
             alt="Logo"
-            style={{ height: '40px' }} // Ajuste o tamanho da logo conforme necessário
+            className="logo-jogajunto" // Classe CSS para o estilo da logo
           />
         </Navbar.Brand>
 
@@ -23,23 +24,24 @@ const Header = () => {
           {/* Link para o Gestor de Quadra */}
           <Nav.Link as={Link} to="/gestor-quadra">Anuncie sua arena</Nav.Link>
 
-          {/* Condicional: Mostrar Login ou Perfil */}
-          {/* Se o usuário estiver logado, mostrar o link para o perfil */}
+          {/* Botão "Entrar" com cor verde */}
           <Nav.Item>
-            <Button variant="outline-primary" as={Link} to="/login" className="mx-2">
+            <Button
+              ref={buttonRef}
+              className="btn-login mx-2" // Classe CSS para o botão
+              onClick={onLoginClick}
+            >
+              <img
+                src={imagemPerfil} // Caminho para a imagem
+                alt="Perfil"
+              />
               Entrar
             </Button>
           </Nav.Item>
-          
-          {/* <Nav.Item>
-            <Link to="/perfil">
-              <img src={imagemPerfil} alt="Perfil" className="rounded-circle" width="40" height="40" />
-            </Link>
-          </Nav.Item> */}
         </Nav>
       </Container>
     </Navbar>
-    );
+  );
 };
 
 export default Header;
