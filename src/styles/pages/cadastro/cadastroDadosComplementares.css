@@ -1,0 +1,51 @@
+/* Contêiner principal do formulário */
+.form-wrapper {
+  background-color: #ffffff; /* Fundo branco */
+  border: 1px solid #ddd; /* Borda leve */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  border-radius: 12px; /* Borda arredondada */
+  padding: 20px;
+}
+
+/* Estilo do botão de upload */
+.upload-button {
+  display: inline-block;
+  padding: 15px 25px; /* Espaçamento interno */
+  border: 2px dashed #2fd151; /* Borda tracejada */
+  background-color: #f8f9fa; /* Fundo claro */
+  color: #2fd151; /* Cor do texto */
+  border-radius: 8px; /* Borda arredondada */
+  font-size: 16px; /* Tamanho da fonte */
+  font-weight: bold; /* Texto em negrito */
+  cursor: pointer; /* Cursor de mão */
+  transition: all 0.3s ease; /* Transições suaves */
+  text-align: center; /* Centraliza o texto */
+}
+
+.upload-button:hover {
+  background-color: #e8f6eb; /* Fundo mais claro no hover */
+  color: #2cb843; /* Verde mais forte no hover */
+  border-color: #2cb843; /* Cor da borda no hover */
+}
+
+/* Pré-visualização da imagem */
+.uploaded-image {
+  width: 100%; /* Largura total do botão */
+  max-width: 300px; /* Limite máximo de largura */
+  height: auto; /* Altura proporcional */
+  border-radius: 8px; /* Bordas arredondadas */
+  object-fit: cover; /* Ajusta a imagem ao espaço disponível */
+  border: 1px solid #ddd; /* Borda sutil para destacar */
+  margin-top: 10px; /* Espaçamento acima da imagem */
+}
+
+/* Ajustes para responsividade */
+@media (max-width: 768px) {
+  .upload-button {
+    padding: 10px 15px; /* Reduz o espaçamento interno */
+    font-size: 14px; /* Fonte menor em telas menores */
+  }
+  .uploaded-image {
+    max-width: 100%; /* Ajusta a largura ao contêiner */
+  }
+}
