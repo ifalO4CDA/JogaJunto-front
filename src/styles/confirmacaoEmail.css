@@ -1,3 +1,4 @@
+
 .confirmacao-email-container {
   display: flex;
   flex-direction: column;
@@ -18,19 +19,20 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+}
+.foto-preview {
+  width: 150px; /* Define a largura */
+  height: 150px; /* Define a altura (igual à largura para ser circular) */
+  border-radius: 50%; /* Faz o elemento ser redondo */
+  background-color: #e9ecef; /* Define uma cor de fundo para o círculo */
+  display: flex; /* Torna o contêiner flexível */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  overflow: hidden; /* Garante que o conteúdo não ultrapasse o círculo */
+  cursor: pointer; /* Mostra o cursor de mão ao passar o mouse */
 }
 
-.foto-preview {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #e9ecef;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-}
 
 .foto-placeholder {
   font-size: 2rem;
@@ -40,13 +42,11 @@
 .foto-preview img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Ajusta a imagem para cobrir todo o espaço do círculo */
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.formulario {
+  flex: 1; /* Faz o formulário ocupar o restante do espaço */
 }
 
 form input {
