@@ -1,7 +1,7 @@
 // src/pages/Arena/arenaDetalhes.js
 import React from 'react';
 
-const ArenaDetalhes = () => {
+const ArenaInformacoes = () => {
   return (
     <div>
       <h1>Arena XYZ</h1>
@@ -12,4 +12,4 @@ const ArenaDetalhes = () => {
   );
 };
 
-export default ArenaDetalhes;
+export default ArenaInformacoes;

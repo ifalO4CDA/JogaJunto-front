@@ -19,6 +19,9 @@ const Header = ({ onLoginClick, buttonRef }) => {
           />
         </Navbar.Brand>
 
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
+
         {/* Links e Botões no Header */}
         <Nav className="ml-auto">
           {/* Link para o Gestor de Quadra */}
