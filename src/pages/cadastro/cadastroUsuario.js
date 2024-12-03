@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/pages/cadastro/cadastroUsuario.css";
 import Ilustracao from "../../assets/Ilustracao.png";
 
-function ConfirmacaoEmail() {
+function CadastroUsuario() {
   const [foto, setFoto] = useState(null);
 
   const handleFotoChange = (e) => {
@@ -91,4 +91,4 @@ function ConfirmacaoEmail() {
   );
 }
 
-export default ConfirmacaoEmail;
+export default CadastroUsuario;
