@@ -26,7 +26,7 @@ import ArenaInformacoes from './pages/arena/arenaInformacoes';
 
 import CadastroUsuario from './pages/cadastro/cadastroUsuario';
 import CadastroDadosComplementares from './pages/cadastro/cadastroDadosComplementares';
-import CadastroGrupo from './pages/cadastro/cadastroGrupo';
+import CadastroGrupo from './components/cadastroGrupoModal';
 import CadastroSalas from './pages/cadastro/cadastroSalas';
 import CadastroReserva from './pages/cadastro/cadastroReserva';
 import CadastroConfirmacaoEmail from './pages/cadastro/cadastroConfirmacaoEmail';

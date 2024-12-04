@@ -1,0 +1,33 @@
+/* Ajustes no Modal */
+/* Centraliza o modal vertical e horizontalmente */
+/* Centraliza o modal usando margens automáticas */
+.modal-dialog {
+  margin: auto;
+  position: relative;
+  transform: translateY(-50%);
+  max-width: 800px; /* Largura máxima do modal */
+  width: 100%; /* Modal ocupa até 100% da largura disponível */
+}
+
+
+/* Estilos adicionais */
+.upload-button {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.upload-button img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.upload-button span {
+  font-size: 16px;
+  color: #555;
+}
