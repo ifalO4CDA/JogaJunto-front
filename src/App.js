@@ -40,8 +40,8 @@ function App() {
   const handleOpenModal = () => {
     const buttonRect = buttonRef.current.getBoundingClientRect(); // Captura posição e dimensões do botão
     setModalPosition({
-      top: buttonRect.bottom + 40 + window.scrollY, // Adiciona 10px de espaçamento abaixo do botão
-      left: buttonRect.left + buttonRect.width / 2 - 150 + window.scrollX,  // Centraliza o modal em relação ao botão (assumindo largura do modal = 300px)
+      top: buttonRect.bottom + 50 + window.scrollY, // Adiciona 10px de espaçamento abaixo do botão
+      left: buttonRect.left + buttonRect.width / 2 - 200 + window.scrollX,  // Centraliza o modal em relação ao botão (assumindo largura do modal = 300px)
     });
     setShowModal(true);
   };

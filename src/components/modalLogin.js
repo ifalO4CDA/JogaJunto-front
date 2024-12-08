@@ -5,27 +5,12 @@ import "../styles/components/modalLogin.css"; // Importa o arquivo CSS
 function ModalLogin({ onClose, position }) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleBackgroundClick = (e) => {
-    if (e.target.id === "modal-overlay") {
-      onClose();
-    }
-  };
-
   return (
-    <div
-      id="modal-overlay"
-      className="modal-overlay"
-      onClick={handleBackgroundClick}
-    >
-      <div
-        className="modal-dialog"
-        style={{
-          top: `${position.top}px`,
-          left: `${position.left}px`,
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="modal-content">
+    <div className="modal-backdrop" onClick={onClose}>
+        <div className="modal-content"
+          style={{ top: position.top, left: position.left }}
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="modal-body text-center">
             <h5 className="mb-1">Seja bem-vindo!</h5>
             <p className="text-muted mb-4">Entrar ou criar conta</p>
@@ -71,7 +56,6 @@ function ModalLogin({ onClose, position }) {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

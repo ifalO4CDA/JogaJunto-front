@@ -12,9 +12,9 @@ import "../styles/components/Header.css"; // Importa o arquivo CSS
 const Header = ({ onLoginClick, buttonRef }) => {
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm">
-      <Container>
+      <Container className="container">
         {/* Logo à esquerda */}
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/" className="mr-auto">
           <img
             src={logoJogaJunto}
             alt="Logo"
@@ -22,10 +22,9 @@ const Header = ({ onLoginClick, buttonRef }) => {
           />
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         {/* Centralizando os botões compostos (Grupos, Salas, Reservas) */}
-        <Nav className="mx-auto d-flex justify-content-center">
+        <Nav className="mx-auto">
           <Nav.Item className="mx-2">
             <Button className="btn-composto">
               <img

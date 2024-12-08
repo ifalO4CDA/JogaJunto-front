@@ -1,33 +1,113 @@
-/* Ajustes no Modal */
-/* Centraliza o modal vertical e horizontalmente */
-/* Centraliza o modal usando margens automáticas */
-.modal-dialog {
-  margin: auto;
-  position: relative;
-  transform: translateY(-50%);
-  max-width: 800px; /* Largura máxima do modal */
-  width: 100%; /* Modal ocupa até 100% da largura disponível */
+/* Estilização geral do modal */
+.modal-content {
+  background-color: #f9f9f9; /* Fundo neutro claro */
+  color: #333333; /* Texto escuro para contraste */
+  border-radius: 10px;
+  border: 1px solid #cccccc; /* Borda sutil */
+  min-width: 500px; /* Largura mínima */
+  padding: 20px;
 }
 
+/* Cabeçalho do modal */
+.modal-header {
+  background-color: #ffffff; /* Fundo branco no cabeçalho */
+  border-bottom: 1px solid #dddddd;
+}
 
-/* Estilos adicionais */
+.modal-header .modal-title {
+  font-size: 1.5rem;
+  color: #555555; /* Tom de cinza médio */
+}
+
+/* Botão de fechar no cabeçalho */
+.modal-header .btn-close {
+  filter: invert(0.5); /* Ajusta para visibilidade */
+}
+
+/* Corpo do modal */
+.modal-body {
+  background-color: #f9f9f9; /* Fundo consistente */
+}
+
+/* Botão de upload */
 .upload-button {
-  cursor: pointer;
   display: inline-block;
-  background-color: #f1f1f1;
-  padding: 10px;
-  border-radius: 8px;
-  font-weight: 500;
+  padding: 10px 15px;
+  background-color: #e0e0e0;
+  color: #555555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.upload-button img {
-  width: 120px;
-  height: 120px;
+.upload-button:hover {
+  background-color: #d6d6d6;
+}
+
+/* Imagem carregada */
+.uploaded-image {
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 50%;
+  border: 2px solid #cccccc;
 }
 
-.upload-button span {
-  font-size: 16px;
-  color: #555;
+/* Botões de checkbox */
+.form-check-input {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+
+.form-check-label {
+  color: #555555;
+}
+
+/* Input de texto */
+.form-control {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  background-color: #ffffff;
+  border-color: #999999;
+  box-shadow: none; /* Remove o glow azul padrão */
+}
+
+.btn-primary:hover {
+  background-color: #219b3b;
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background-color: #e0e0e0;
+  border-color: #d6d6d6;
+  color: #555555;
+}
+
+.btn-secondary:hover {
+  background-color: #cccccc;
+}
+
+/* Footer do modal */
+.modal-footer {
+  background-color: #ffffff;
+  border-top: 1px solid #dddddd;
+}
+
+/* Adiciona espaçamento interno ao conteúdo */
+.form-wrapper {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dddddd;
+}
+
+/* Para elementos menores de texto */
+label {
+  font-weight: bold;
+  color: #444444;
 }

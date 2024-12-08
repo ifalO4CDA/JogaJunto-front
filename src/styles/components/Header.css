@@ -50,5 +50,21 @@
 
 /* Logo JogaJunto */
 .logo-jogajunto {
-  height: 40px; /* Ajuste o tamanho da logo */
+  height: 70%; /* Ajuste o tamanho da logo */
+  width: 70%; /* Ajuste o tamanho da logo */
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.mx-auto {
+  display: flex;
+  flex-direction: row;
+}
+
+.mr-auto {
+  justify-items: center;
 }
