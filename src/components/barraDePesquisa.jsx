@@ -1,42 +1,23 @@
 import React from "react";
 import "../styles/components/barraDePesquisa.css";
 
-function BarraDePesquisa() {
+function BarraDePesquisa({ campos, onSearch }) {
   return (
     <div className="barra-de-pesquisa">
-      <div className="input-group">
-        <label className="input-label">Sua atividade física</label>
-        <input
-          type="text"
-          placeholder="Onde?"
-          className="search-input"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Data</label>
-        <input
-          type="date"
-          placeholder="Quando?"
-          className="search-input"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Hora de início</label>
-        <input
-          type="time"
-          placeholder="Começa?"
-          className="search-input"
-        />
-      </div>
-      <div className="input-group">
-        <label className="input-label">Hora de fim</label>
-        <input
-          type="time"
-          placeholder="Termina?"
-          className="search-input"
-        />
-      </div>
-      <button className="search-button">Buscar</button>
+      {campos.map((campo, index) => (
+        <div className="input-group" key={index}>
+          <label className="input-label">{campo.label}</label>
+          <input
+            type={campo.type}
+            placeholder={campo.placeholder}
+            className="search-input"
+            onChange={(e) => campo.onChange && campo.onChange(e.target.value)}
+          />
+        </div>
+      ))}
+      <button className="search-button" onClick={onSearch}>
+        Buscar
+      </button>
     </div>
   );
 }

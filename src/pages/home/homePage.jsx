@@ -1,36 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import BarraDePesquisa from "../../components/barraDePesquisa";
 import MapaInterativo from "../../components/mapaInterativo";
-import CardQuadras from "../../components/cardQuadra";
+import CardQuadra from "../../components/cardQuadra"; // Importa o componente ajustado
 import "../../styles/pages/home/homePage.css"; // CSS sempre por último
 
-import FotoQuadra from "../../assets/fotoQuadra.png";
-
 function HomePage() {
+  const [searchData, setSearchData] = useState({
+    atividade: "",
+    data: "",
+    horaInicio: "",
+    horaFim: "",
+  });
+
+  const handleSearch = () => {
+    console.log("Buscar com os valores: ", searchData);
+  };
+
+  const camposPesquisa = [
+    {
+      label: "Sua atividade física",
+      type: "text",
+      placeholder: "Onde?",
+      onChange: (value) => setSearchData((prev) => ({ ...prev, atividade: value })),
+    },
+    {
+      label: "Data",
+      type: "date",
+      placeholder: "Quando?",
+      onChange: (value) => setSearchData((prev) => ({ ...prev, data: value })),
+    },
+    {
+      label: "Hora de início",
+      type: "time",
+      placeholder: "Começa?",
+      onChange: (value) => setSearchData((prev) => ({ ...prev, horaInicio: value })),
+    },
+    {
+      label: "Hora de fim",
+      type: "time",
+      placeholder: "Termina?",
+      onChange: (value) => setSearchData((prev) => ({ ...prev, horaFim: value })),
+    },
+  ];
+
   const quadras = [
     {
-      imagem: "URL_DA_IMAGEM_1",
+      imagem: "https://via.placeholder.com/150", // Imagem placeholder
       nome: "Santíssimo Senhor",
       precoHora: "R$ 80/H",
       bairro: "Serraria",
       tipo: "Futsal",
     },
     {
-      imagem: "URL_DA_IMAGEM_2",
+      imagem: "https://via.placeholder.com/150", // Imagem placeholder
       nome: "Arena Central",
       precoHora: "R$ 100/H",
       bairro: "Centro",
       tipo: "Vôlei",
     },
     {
-      imagem: "URL_DA_IMAGEM_3",
+      imagem: "https://via.placeholder.com/150", // Imagem placeholder
       nome: "Quadra Esportiva",
       precoHora: "R$ 70/H",
       bairro: "Jatiúca",
       tipo: "Basquete",
     },
     {
-      imagem: "URL_DA_IMAGEM_4",
+      imagem: "https://via.placeholder.com/150", // Imagem placeholder
       nome: "Quadra Verde",
       precoHora: "R$ 60/H",
       bairro: "Pajuçara",
@@ -42,7 +78,7 @@ function HomePage() {
     <div className="home-page">
       {/* Barra de Pesquisa */}
       <div className="search-bar-container">
-        <BarraDePesquisa />
+        <BarraDePesquisa campos={camposPesquisa} onSearch={handleSearch} />
       </div>
 
       {/* Seção Explorar com o mapa */}
@@ -56,9 +92,9 @@ function HomePage() {
         <h4 className="section-title">Perto de você</h4>
         <div className="quadras-container">
           {quadras.map((quadra, index) => (
-            <CardQuadras
+            <CardQuadra
               key={index}
-              imagem={FotoQuadra}
+              imagem={quadra.imagem}
               nome={quadra.nome}
               precoHora={quadra.precoHora}
               bairro={quadra.bairro}

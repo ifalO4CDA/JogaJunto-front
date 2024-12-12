@@ -1,21 +1,11 @@
 /* Estilo Geral da Home */
 .home-page {
-    max-width: 1200px;
+    max-width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f8f9fa; /* Fundo leve para separar os componentes */
     font-family: Arial, sans-serif;
   }
-  
-  /* Barra de Pesquisa */
-  .search-bar-container {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
   /* Títulos das Seções */
   .section-title {
     font-size: 1.5rem;

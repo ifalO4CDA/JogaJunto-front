@@ -13,8 +13,7 @@ import GruposInformacoes from './pages/grupos/gruposInformacoes';
 import Grupos from './pages/grupos/gruposTelas';
 
 import SalasInformacoes from './pages/salas/salasInformacoes';
-import SalasPrivadas from './pages/salas/salasPrivadas';
-import SalasPublicas from './pages/salas/salasPublicas';
+import SalasTelas from './pages/salas/salasTelas';
 
 import ArenaReserva from './pages/arena/arenaReserva';
 
@@ -26,7 +25,7 @@ import ArenaInformacoes from './pages/arena/arenaInformacoes';
 import CadastroUsuario from './pages/cadastro/cadastroUsuario';
 import CadastroDadosComplementares from './pages/cadastro/cadastroDadosComplementares';
 import CadastroGrupo from './components/cadastroGrupoModal';
-import CadastroSalas from './pages/cadastro/cadastroSalas';
+import CadastroSalas from './components/cadastroSalaModal';
 import CadastroReserva from './pages/cadastro/cadastroReserva';
 import CadastroConfirmacaoEmail from './pages/cadastro/cadastroConfirmacaoEmail';
 
@@ -63,8 +62,7 @@ function App() {
         <Route path="/grupos" element={<Grupos/>} />
 
         <Route path="/salas/informacoes" element={<SalasInformacoes />} />
-        <Route path="/salas/privadas" element={<SalasPrivadas />} />
-        <Route path="/salas/publicas" element={<SalasPublicas />} />
+        <Route path="/salas" element={<SalasTelas />} />
 
         <Route path="/arena/reserva" element={<ArenaReserva />} />
 

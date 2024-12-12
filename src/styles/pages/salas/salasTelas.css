@@ -1,0 +1,48 @@
+.rooms-page {
+  display: flex;
+  flex-direction: column; /* Define o layout como vertical */
+  align-items: center; /* Centraliza os itens */
+  gap: 20px; /* Espaçamento entre as seções */
+  padding: 20px;
+}
+
+.search-bar-container {
+  width: 80%; /* Limita a largura da barra de pesquisa */
+}
+
+.rooms-page__actions {
+  display: flex;
+  flex-direction: column; /* Mantém os itens em coluna */
+  align-items: center; /* Centraliza os botões */
+  gap: 10px; /* Espaçamento entre botões */
+  width: 80%; /* Mantém alinhado com a barra de pesquisa */
+}
+
+.toggle-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+.btn {
+  flex: 1;
+  height: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 10px;
+}
+
+.create-room {
+  width: 100%;
+  max-width: 200px;
+  height: 50px;
+  font-size: 16px;
+}
+
+.rooms-page__list {
+  display: flex;
+  flex-direction: column; /* Alinha os cards em coluna */
+  gap: 20px; /* Espaçamento entre os cards */
+  width: 80%; /* Mantém alinhado com as outras seções */
+}

@@ -1,76 +1,48 @@
-/* Contêiner da Barra de Pesquisa */
 .barra-de-pesquisa {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: wrap; /* Permite que os itens se reorganizem em telas menores */
   gap: 10px;
-  padding: 10px;
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 85%; /* Limita a largura da barra a 80% da página */
+  margin: 0 auto; /* Centraliza a barra horizontalmente */
+  background-color: #f9f9f9; /* Fundo levemente diferente */
+  border: 1px solid #ddd; /* Borda bem fina */
+  border-radius: 10px; /* Bordas arredondadas */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 15px; /* Espaçamento interno */
 }
 
-/* Grupo de Input */
 .input-group {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1; /* Faz os campos ocuparem o espaço proporcional */
+  min-width: 150px; /* Define um tamanho mínimo */
 }
 
-/* Labels */
 .input-label {
   font-size: 0.9rem;
-  color: #666666;
-  font-weight: 500;
+  font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* Estilo dos Inputs */
 .search-input {
-  padding: 10px 15px;
-  font-size: 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  outline: none;
-  color: #333;
-  font-weight: 500;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #fff;
 }
 
-.search-input::placeholder {
-  color: #999999;
-  font-weight: normal;
-}
-
-.search-input:focus {
-  border: 1px solid #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-/* Botão de Busca */
 .search-button {
   padding: 10px 20px;
-  font-size: 1rem;
-  color: #ffffff;
   background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 10px;
-  cursor: pointer;
+  border-radius: 5px;
   font-weight: bold;
-  align-self: center;
+  cursor: pointer;
+  align-self: flex-end; /* Alinha o botão ao final */
 }
 
 .search-button:hover {
   background-color: #0056b3;
-}
-
-/* Ajuste para Responsividade */
-@media (max-width: 768px) {
-  .barra-de-pesquisa {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-
-  .search-button {
-    width: 100%;
-    text-align: center;
-  }
 }

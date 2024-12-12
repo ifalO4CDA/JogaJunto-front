@@ -1,82 +1,133 @@
-/* Estilo da página de grupos */
+/* Estilo principal da página de grupos */
 .groups-page {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.groups-page__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.groups-page__title {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.groups-page__btn-search,
-.groups-page__btn-add {
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  transition: background-color 0.3s;
-}
-
-.groups-page__btn-search:hover,
-.groups-page__btn-add:hover {
-  background-color: #e9ecef;
-}
-
-.groups-page__toggle {
+  flex-direction: column;
+  gap: 20px; /* Espaçamento entre as seções */
+  align-items: center; /* Centraliza os itens horizontalmente */
   width: 100%;
-}
-
-.groups-page__toggle-btn {
-  height: 50px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.groups-page__toggle-btn.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.groups-page__toggle-btn.btn-outline-primary {
-  background-color: transparent;
-  border: 2px solid #007bff;
-  color: #007bff;
 }
 
 .groups-page__list {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os cartões */
+  gap: 20px; /* Espaçamento entre os cartões */
+  width: 100%; /* Garante que a lista ocupe toda a largura */
+}
+
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.groups-page__toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaçamento entre os botões */
+  width: 100px; /* Mesma largura da barra de pesquisa */
+}
+
+.groups-page__toggle .btn {
+  flex: 1; /* Cada botão ocupa metade do espaço */
+  height: 50px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+.groups-page__toggle .btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.groups-page__toggle .btn-outline-primary {
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.groups-page__toggle .btn:hover {
+  opacity: 0.9;
 }
 
 .group-card {
+  width: 100%;
+  max-width: 300px; /* Limita a largura do cartão */
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .group-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 }
 
-.group-card__image {
-  width: 60px;
-  height: 60px;
+.group-card img {
+  width: 100%;
+  height: 150px;
   object-fit: cover;
+  border-bottom: 1px solid #ddd;
 }
 
-.group-card__title {
-  font-size: 1rem;
+
+.group-card .card-content {
+  padding: 15px;
+}
+
+.group-card h5 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.group-card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.group-card .card-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.group-card .card-details span {
+  font-size: 0.9rem;
   font-weight: bold;
+  color: #007bff;
 }
 
-.group-card__members {
-  font-size: 0.875rem;
-  color: #6c757d;
+.search-bar-container {
+  width: 80%; /* Limita a largura da barra */
+  margin: 0 auto; /* Centraliza */
+}
+
+.barra-de-pesquisa {
+  display: flex;
+  flex-wrap: nowrap; /* Mantém os campos em linha */
+  gap: 10px; /* Espaçamento entre os campos */
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
 }
