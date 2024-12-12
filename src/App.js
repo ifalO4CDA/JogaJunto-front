@@ -10,8 +10,7 @@ import HomePage from './pages/home/homePage';
 import Explorar from './pages/home/explorar';
 
 import GruposInformacoes from './pages/grupos/gruposInformacoes';
-import GruposPrivados from './pages/grupos/gruposPrivados';
-import GruposPublicos from './pages/grupos/gruposPublicos';
+import Grupos from './pages/grupos/gruposTelas';
 
 import SalasInformacoes from './pages/salas/salasInformacoes';
 import SalasPrivadas from './pages/salas/salasPrivadas';
@@ -61,8 +60,7 @@ function App() {
         <Route path="/explorar" element={<Explorar />} />
 
         <Route path="/grupos/informacoes" element={<GruposInformacoes />} />
-        <Route path="/grupos/privados" element={<GruposPrivados />} />
-        <Route path="/grupos/publicos" element={<GruposPublicos />} />
+        <Route path="/grupos" element={<Grupos/>} />
 
         <Route path="/salas/informacoes" element={<SalasInformacoes />} />
         <Route path="/salas/privadas" element={<SalasPrivadas />} />

@@ -1,0 +1,82 @@
+/* Estilo da página de grupos */
+.groups-page {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.groups-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.groups-page__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.groups-page__btn-search,
+.groups-page__btn-add {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  transition: background-color 0.3s;
+}
+
+.groups-page__btn-search:hover,
+.groups-page__btn-add:hover {
+  background-color: #e9ecef;
+}
+
+.groups-page__toggle {
+  width: 100%;
+}
+
+.groups-page__toggle-btn {
+  height: 50px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.groups-page__toggle-btn.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.groups-page__toggle-btn.btn-outline-primary {
+  background-color: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+}
+
+.groups-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.group-card {
+  background-color: #fff;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.group-card:hover {
+  transform: translateY(-4px);
+}
+
+.group-card__image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.group-card__title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.group-card__members {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
