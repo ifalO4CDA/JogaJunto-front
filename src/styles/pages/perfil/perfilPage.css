@@ -1,0 +1,105 @@
+/* Layout Principal */
+.perfil-page {
+  display: flex;
+  flex-direction: column; /* Empilha as seções verticalmente */
+  align-items: center; /* Centraliza todo o conteúdo horizontalmente */
+  gap: 20px; /* Espaçamento entre as seções */
+}
+
+/* Cabeçalho do Perfil */
+.perfil-header {
+  display: flex;
+  align-items: center; /* Alinha a imagem, nome e botões */
+  gap: 20px; /* Espaçamento entre os elementos */
+  border-bottom: 2px solid #e0e0e0; /* Linha separadora */
+  padding-bottom: 20px;
+}
+
+.perfil-foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2fd151;
+}
+
+.perfil-dados {
+  display: flex;
+  flex-direction: column; /* Nome e botões empilhados */
+  align-items: flex-start; /* Alinha à esquerda */
+  gap: 10px;
+}
+
+.perfil-nome {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  display: flex;
+  align-items: center; /* Alinha nome e botão na mesma linha */
+  gap: 10px; /* Espaçamento entre nome e botão */
+}
+
+.btn-editar {
+  font-size: 0.875rem;
+  padding: 5px 10px; /* Botão compacto */
+}
+
+.btn-complementar {
+  width: 200px; /* Define largura fixa */
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: #ffc107;
+  border: none;
+  color: black;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.btn-complementar:hover {
+  background-color: #e0a800;
+}
+
+/* Seções de Salas, Grupos e Reservas */
+.perfil-secoes {
+  display: flex;
+  flex-direction: column; /* Empilha as seções verticalmente */
+  align-items: center; /* Centraliza as seções */
+  gap: 30px;
+  width: 100%; /* Garante que a largura das seções seja consistente */
+}
+
+/* Título de cada seção */
+.perfil-secoes h3 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: bold;
+  text-align: center; /* Centraliza os títulos */
+}
+
+/* Contêiner de Cards */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
+  gap: 20px; /* Espaçamento entre os cards */
+  justify-content: center; /* Centraliza os cards na linha */
+  width: 100%; /* Define largura total */
+}
+
+.cards-container > div {
+  flex: 1 1 calc(25% - 20px); /* Cards ocupam 25% da largura menos o gap */
+  max-width: calc(25% - 20px); /* Garante que o máximo seja 25% */
+  min-width: 200px; /* Largura mínima dos cards */
+}
+
+/* Cards menores no mobile */
+@media (max-width: 768px) {
+  .cards-container > div {
+    flex: 1 1 calc(50% - 20px); /* Cards ocupam 50% no mobile */
+    max-width: calc(50% - 20px);
+  }
+
+  .btn-complementar {
+    width: 100%; /* Botão ocupa toda a largura no mobile */
+  }
+}

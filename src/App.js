@@ -15,10 +15,9 @@ import Grupos from './pages/grupos/gruposTelas';
 import SalasInformacoes from './pages/salas/salasInformacoes';
 import SalasTelas from './pages/salas/salasTelas';
 
-import ArenaReserva from './pages/arena/arenaReserva';
+import Perfil from './pages/perfil/perfilPage';
 
-import PerfilLogado from './pages/perfil/perfilLogado';
-import PerfilNaoLogado from './pages/perfil/perfilNaoLogado';
+import ArenaReserva from './pages/arena/arenaReserva';
 
 import ArenaInformacoes from './pages/arena/arenaInformacoes';
 
@@ -57,11 +56,10 @@ function App() {
         <Route path="/salas" element={<SalasTelas />} />
 
         <Route path="/arena/reserva" element={<ArenaReserva />} />
-
-        <Route path="/perfil/logado" element={<PerfilLogado />} />
-        <Route path="/perfil/naologado" element={<PerfilNaoLogado />} />
-
         <Route path="/arena/:arenaId" element={<ArenaInformacoes />} />
+
+        <Route path="/perfil" element={<Perfil />} />
+
 
         <Route path="/cadastro/usuario" element={<CadastroUsuario />} />
         <Route path="/cadastro/dadoscomplementares" element={<CadastroDadosComplementares />} />
