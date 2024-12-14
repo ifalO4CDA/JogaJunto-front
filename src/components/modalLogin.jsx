@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/components/modalLogin.css"; // Importa o arquivo CSS
 
-function ModalLogin({ onClose, position }) {
+function ModalLogin({ onClose }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
         <div className="modal-content"
-          style={{ top: position.top, left: position.left }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="modal-body text-center">
@@ -45,13 +45,15 @@ function ModalLogin({ onClose, position }) {
                 Continuar
               </button>
               {/* Botão de Cadastrar */}
-              <button
-                type="button"
-                className="btn btn-outline-secondary w-100 mt-3 btn-outline-custom"
-                onClick={onClose}
-              >
-                Cadastrar
-              </button>
+              <Link to="/cadastro/usuario" className="link">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary w-100 mt-3 btn-outline-custom"
+                  onClick={onClose}
+                >
+                    Cadastrar
+                </button>
+              </Link>
             </form>
           </div>
         </div>

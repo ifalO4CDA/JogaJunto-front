@@ -25,7 +25,7 @@ const Header = ({ onLoginClick, buttonRef }) => {
 
         {/* Centralizando os botões compostos (Grupos, Salas, Reservas) */}
         <Nav className="mx-auto">
-          <Nav.Item className="mx-2">
+          <Navbar.Brand as={Link} to="/grupos" className="mx-2">
             <Button className="btn-composto">
               <img
                 src={gruposImage} // Imagem para "Grupos"
@@ -34,9 +34,9 @@ const Header = ({ onLoginClick, buttonRef }) => {
               />
               <span className="btn-composto-text">Grupos</span>
             </Button>
-          </Nav.Item>
+          </Navbar.Brand>
 
-          <Nav.Item className="mx-2">
+          <Navbar.Brand as={Link} to="/salas" className="mx-2">
             <Button className="btn-composto">
               <img
                 src={salasImage} // Imagem para "Salas"
@@ -45,9 +45,9 @@ const Header = ({ onLoginClick, buttonRef }) => {
               />
               <span className="btn-composto-text">Salas</span>
             </Button>
-          </Nav.Item>
+          </Navbar.Brand>
 
-          <Nav.Item className="mx-2">
+          <Navbar.Brand as={Link} to="/reservas" className="mx-2">
             <Button className="btn-composto">
               <img
                 src={reservasImage} // Imagem para "Reservas"
@@ -56,7 +56,7 @@ const Header = ({ onLoginClick, buttonRef }) => {
               />
               <span className="btn-composto-text">Reservas</span>
             </Button>
-          </Nav.Item>
+          </Navbar.Brand>
         </Nav>
 
         {/* Links e Botões à direita */}

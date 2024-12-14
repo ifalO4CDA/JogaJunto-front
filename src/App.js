@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -30,17 +30,9 @@ import CadastroReserva from './pages/cadastro/cadastroReserva';
 import CadastroConfirmacaoEmail from './pages/cadastro/cadastroConfirmacaoEmail';
 
 function App() {
-  // const [user, setUser] = React.useState(null);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const [showModal, setShowModal] = useState(false);
-  const buttonRef = useRef(null);
 
   const handleOpenModal = () => {
-    const buttonRect = buttonRef.current.getBoundingClientRect(); // Captura posição e dimensões do botão
-    setModalPosition({
-      top: buttonRect.bottom + 50 + window.scrollY, // Adiciona 10px de espaçamento abaixo do botão
-      left: buttonRect.left + buttonRect.width / 2 - 200 + window.scrollX,  // Centraliza o modal em relação ao botão (assumindo largura do modal = 300px)
-    });
     setShowModal(true);
   };
 
@@ -51,8 +43,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header onLoginClick={handleOpenModal} buttonRef={buttonRef} />
-      {showModal && <ModalLogin onClose={handleCloseModal} position={modalPosition} />}
+      <Header onLoginClick={handleOpenModal} />
+      {showModal && <ModalLogin onClose={handleCloseModal} />}
       
       <Routes>
         <Route path="/" element={<HomePage />} />

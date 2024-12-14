@@ -1,9 +1,5 @@
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
   display: flex;
   align-items: center;
@@ -12,51 +8,60 @@
 }
 
 .modal-content {
-  width: 350px;
+  max-width: 200px;
   position: absolute;
   background: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001; /* Certifique-se de que esteja acima do backdrop */
+  box-sizing: border-box;
 }
-  
-  /* Botão de mostrar/ocultar senha */
-  .password-toggle-btn {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    height: 50px;
-    width: 50px;
-    transform: translateY(-50%);
+
+.form-control modal-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 50px;
+  font-size: 16px;
+  padding: 0 15px;
+  margin-bottom: 20px;
+}  
+
+/* Botão de mostrar/ocultar senha */
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  height: 50px;
+  width: 50px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  &:hover {
     background: none;
-    border: none;
-    &:hover {
-      background: none;
-    };
-    &:active {
-      background: none;
-    };
+  };
+  &:active {
+    background: none;
+  };
+}
+
+/* Botão "Continuar" */
+.btn-primary-custom {
+  border: none;
+  border-radius: 8px;
+  height: 50px;
+  font-size: 16px;
+  background-color: #2fd151; /* Cor verde */
+  color: white;
+  &:hover {
+    background-color: white;
   }
-  
-  /* Botão "Continuar" */
-  .btn-primary-custom {
-    border: none;
-    border-radius: 8px;
-    height: 50px;
-    font-size: 16px;
-    background-color: #2fd151; /* Cor verde */
-    color: white;
-    &:hover {
-      background-color: white;
-      color: #2fd151;
-    }
-  }
-  
-  /* Botão "Cadastrar" */
-  .btn-outline-custom {
-    border-radius: 8px;
-    height: 50px;
-    font-size: 16px;
-  }
+}
+
+/* Botão "Cadastrar" */
+.btn-outline-custom {
+  border-radius: 8px;
+  height: 50px;
+  font-size: 16px;
+}
   

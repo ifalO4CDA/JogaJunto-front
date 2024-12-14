@@ -1,25 +1,57 @@
-/* Alinhamento do botão de adicionar foto */
+/* Contêiner interno para dividir imagem e formulário */
+.cadastro-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: row; /* Coloca imagem e formulário lado a lado */
+  justify-content: space-between; /* Espaçamento igual entre os itens */
+  align-items: flex-start; /* Alinha os itens ao topo */
+  background-color: #f8f9fa; /* Cor de fundo leve */
+}
+
+/* Estilo da imagem */
+.cadastro-imagem-container {
+  flex: 1; /* Faz a imagem ocupar 50% do espaço */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cadastro-imagem {
+  max-width: 100%; /* Ajusta a largura da imagem ao contêiner */
+  height: auto;
+  object-fit: contain;
+}
+
+/* Estilo do formulário */
+.cadastro-form-container {
+  flex: 1; /* Faz o formulário ocupar 50% do espaço */
+  display: flex;
+  flex-direction: column; /* Coloca os itens em uma coluna */
+  justify-content: center; /* Centraliza os elementos verticalmente */
+  padding: 40px; /* Aumenta o espaçamento interno */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Foto de perfil */
 .foto-perfil {
-  margin-bottom: 20px; /* Adiciona espaço abaixo da foto */
+  margin-bottom: 20px;
 }
 
 .foto-preview {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 200px;
+  height: 150px; /* Tamanho maior para corresponder aos inputs */
+  border-radius: 15%;
   background-color: #e9ecef;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #2FD151;
+  border: 3px solid #2FD151;
   box-shadow: 0px 4px 6px rgba(47, 209, 81, 0.4);
-}
-
-.foto-placeholder {
-  font-size: 2rem;
-  color: #6c757d;
 }
 
 .foto-preview img {
@@ -28,14 +60,63 @@
   object-fit: cover;
 }
 
-/* Inputs */
-form input:focus {
+.cadastro-form-container .form-control {
+  width: 80%; /* Os inputs ocupam 80% da largura do contêiner */
+  max-width: 500px; /* Limita a largura máxima */
+  margin: 10px auto; /* Centraliza horizontalmente e adiciona espaçamento */
+  padding: 15px; /* Aumenta o preenchimento interno para inputs mais altos */
+  font-size: 18px; /* Texto maior para inputs maiores */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-height: 30px; /* Altura mínima dos inputs */
+}
+
+
+.cadastro-form-container .form-control:focus {
   border-color: #2FD151;
   box-shadow: 0px 0px 6px rgba(47, 209, 81, 0.5);
   outline: none;
 }
 
+/* Botão para mostrar/ocultar senha */
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
 /* Botão Concluir */
-form button:hover {
-  background-color: #28c547;
+.btn-concluir {
+  width: 80%; /* O botão ocupa 80% da largura do contêiner */
+  max-width: 500px; /* Limita a largura máxima */
+  background-color: #2FD151;
+  border-color: #2FD151;
+  color: white;
+  padding: 15px; /* Preenchimento interno maior para um botão mais alto */
+  font-size: 18px; /* Texto maior */
+  border-radius: 8px;
+  margin: 20px auto 0; /* Centraliza o botão horizontalmente */
+  display: block; /* Garante que o botão seja tratado como um bloco */
+  text-align: center; /* Alinha o texto dentro do botão ao centro */
+}
+
+.btn-concluir:hover {
+  background-color: #1e8f34;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .cadastro-imagem-container {
+    display: none; /* Esconde o contêiner da imagem */
+  }
+
+  .cadastro-form-container {
+    width: 100%; /* O formulário agora ocupa 100% da largura */
+  }
 }
