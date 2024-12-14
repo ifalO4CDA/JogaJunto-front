@@ -61,7 +61,7 @@ function App() {
         <Route path="/perfil/logado" element={<PerfilLogado />} />
         <Route path="/perfil/naologado" element={<PerfilNaoLogado />} />
 
-        <Route path="/arena/informacoes" element={<ArenaInformacoes />} />
+        <Route path="/arena/:arenaId" element={<ArenaInformacoes />} />
 
         <Route path="/cadastro/usuario" element={<CadastroUsuario />} />
         <Route path="/cadastro/dadoscomplementares" element={<CadastroDadosComplementares />} />

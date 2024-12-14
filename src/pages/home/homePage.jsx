@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BarraDePesquisa from "../../components/barraDePesquisa";
 import MapaInterativo from "../../components/mapaInterativo";
 import CardQuadra from "../../components/cardQuadra"; // Importa o componente ajustado
@@ -12,6 +12,66 @@ function HomePage() {
     horaFim: "",
   });
 
+  const [quadras, setQuadras] = useState([]); // Estado para armazenar as quadras
+  const [error, setError] = useState(false); // Estado para identificar erros
+
+  useEffect(() => {
+    // Requisição para obter as quadras
+    /*
+    fetch("http://sua-api.com/quadras")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar quadras");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setQuadras(data); // Define os dados retornados pela API
+        setError(false); // Reseta o erro caso a requisição tenha sucesso
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar quadras:", err);
+        setError(true); // Define o estado de erro
+      });
+    */
+
+    // Temporariamente usando dados de fallback
+    setQuadras([
+      {
+        id: 1,
+        imagem: "https://via.placeholder.com/150",
+        nome: "Santíssimo Senhor",
+        precoHora: "R$ 80/H",
+        bairro: "Serraria",
+        tipo: "Futsal",
+      },
+      {
+        id: 2,
+        imagem: "https://via.placeholder.com/150",
+        nome: "Arena Central",
+        precoHora: "R$ 100/H",
+        bairro: "Centro",
+        tipo: "Vôlei",
+      },
+      {
+        id: 3,
+        imagem: "https://via.placeholder.com/150",
+        nome: "Quadra Esportiva",
+        precoHora: "R$ 70/H",
+        bairro: "Jatiúca",
+        tipo: "Basquete",
+      },
+      {
+        id: 4,
+        imagem: "https://via.placeholder.com/150",
+        nome: "Quadra Verde",
+        precoHora: "R$ 60/H",
+        bairro: "Pajuçara",
+        tipo: "Tênis",
+      },
+    ]);
+  }, []);
+
   const handleSearch = () => {
     console.log("Buscar com os valores: ", searchData);
   };
@@ -21,7 +81,8 @@ function HomePage() {
       label: "Sua atividade física",
       type: "text",
       placeholder: "Onde?",
-      onChange: (value) => setSearchData((prev) => ({ ...prev, atividade: value })),
+      onChange: (value) =>
+        setSearchData((prev) => ({ ...prev, atividade: value })),
     },
     {
       label: "Data",
@@ -33,44 +94,15 @@ function HomePage() {
       label: "Hora de início",
       type: "time",
       placeholder: "Começa?",
-      onChange: (value) => setSearchData((prev) => ({ ...prev, horaInicio: value })),
+      onChange: (value) =>
+        setSearchData((prev) => ({ ...prev, horaInicio: value })),
     },
     {
       label: "Hora de fim",
       type: "time",
       placeholder: "Termina?",
-      onChange: (value) => setSearchData((prev) => ({ ...prev, horaFim: value })),
-    },
-  ];
-
-  const quadras = [
-    {
-      imagem: "https://via.placeholder.com/150", // Imagem placeholder
-      nome: "Santíssimo Senhor",
-      precoHora: "R$ 80/H",
-      bairro: "Serraria",
-      tipo: "Futsal",
-    },
-    {
-      imagem: "https://via.placeholder.com/150", // Imagem placeholder
-      nome: "Arena Central",
-      precoHora: "R$ 100/H",
-      bairro: "Centro",
-      tipo: "Vôlei",
-    },
-    {
-      imagem: "https://via.placeholder.com/150", // Imagem placeholder
-      nome: "Quadra Esportiva",
-      precoHora: "R$ 70/H",
-      bairro: "Jatiúca",
-      tipo: "Basquete",
-    },
-    {
-      imagem: "https://via.placeholder.com/150", // Imagem placeholder
-      nome: "Quadra Verde",
-      precoHora: "R$ 60/H",
-      bairro: "Pajuçara",
-      tipo: "Tênis",
+      onChange: (value) =>
+        setSearchData((prev) => ({ ...prev, horaFim: value })),
     },
   ];
 
@@ -90,18 +122,23 @@ function HomePage() {
       {/* Seção Perto de Você */}
       <section className="near-you-section">
         <h4 className="section-title">Perto de você</h4>
-        <div className="quadras-container">
-          {quadras.map((quadra, index) => (
-            <CardQuadra
-              key={index}
-              imagem={quadra.imagem}
-              nome={quadra.nome}
-              precoHora={quadra.precoHora}
-              bairro={quadra.bairro}
-              tipo={quadra.tipo}
-            />
-          ))}
-        </div>
+        {error ? (
+          <p className="text-danger">Erro ao carregar as quadras.</p>
+        ) : (
+          <div className="quadras-container">
+            {quadras.map((quadra) => (
+              <CardQuadra
+                key={quadra.id}
+                id={quadra.id} // Adiciona o ID para navegação
+                imagem={quadra.imagem}
+                nome={quadra.nome}
+                precoHora={quadra.precoHora}
+                bairro={quadra.bairro}
+                tipo={quadra.tipo}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
