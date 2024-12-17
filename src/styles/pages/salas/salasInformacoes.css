@@ -1,0 +1,112 @@
+/* Container principal: Define a estrutura vertical */
+.sala-informacoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaçamento entre seções */
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Centraliza o conteúdo */
+    max-width: 1200px; /* Define uma largura máxima */
+  }
+  
+  /* Header */
+  .sala-header {
+    display: flex;
+    justify-content: space-between; /* Distribui título e botões */
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .sala-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  /* Botões de ação */
+  .sala-acoes {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+  }
+  
+  /* Reserva */
+  .reserva-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  /* Participantes */
+  .participantes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Item de participante */
+  .participantes-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
+  }
+  
+  .participantes-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .participantes-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #2fd151;
+  }
+  
+  .participantes-info span {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  /* Botões */
+  .botoes-gerais {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center; /* Centraliza os botões na tela */
+    margin-top: 20px;
+  }
+  
+  .botoes-gerais button {
+    width: 300px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .botoes-gerais button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Botão de Confirmar Pagamento */
+.btn-confirmar-pagamento {
+    max-width: 250px; /* Define a largura máxima */
+    width: 100%; /* Garante que ele respeite o tamanho sem ultrapassar */
+    padding: 5px 10px; /* Ajusta o espaçamento interno */
+    font-size: 0.8rem; /* Reduz o tamanho da fonte */
+    text-align: center; /* Centraliza o texto */
+    white-space: nowrap; /* Evita que o texto quebre */
+    border-radius: 6px; /* Borda levemente arredondada */
+  }
+  
