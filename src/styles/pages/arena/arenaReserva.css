@@ -1,0 +1,85 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    justify-content: flex-start;
+    gap: 50px;
+  }
+  .left-align {
+    text-align: left;
+  }
+  
+  .titulo {
+    display: flex;
+    font-size: 24px;
+    margin-bottom: 10px;
+    align-items: left;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  
+  .filter-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .filter-buttons button.active {
+    background-color: #006eff;
+    color: white;
+  }
+  
+  .reservas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .reservas-list.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .reserva-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reserva-info h3 {
+    margin: 0 0 5px;
+  }
+  
+  .reserva-info p {
+    margin: 2px 0;
+    color: #555;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+  
+  .status.ativa {
+    background-color: #d4fdd4;
+    color: #2b8e2b;
+  }
+  
+  .status.expirada {
+    background-color: #fdd4d4;
+    color: #8e2b2b;
+  }
+  

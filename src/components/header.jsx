@@ -47,7 +47,7 @@ const Header = ({ onLoginClick, buttonRef }) => {
             </Button>
           </Navbar.Brand>
 
-          <Navbar.Brand as={Link} to="/reservas" className="mx-2">
+          <Navbar.Brand as={Link} to="/arena/reserva" className="mx-2">
             <Button className="btn-composto">
               <img
                 src={reservasImage} // Imagem para "Reservas"
