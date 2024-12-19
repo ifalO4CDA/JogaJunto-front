@@ -1,13 +1,32 @@
 import React, { useState } from "react";
 import "../../styles/pages/cadastro/cadastroUsuario.css";
 import Ilustracao from "../../assets/Ilustracao.png";
+import { UsuariosService } from "../../services/usuarioService";
+import { useNavigate } from "react-router-dom";
 
 function CadastroUsuario() {
   const [foto, setFoto] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleFotoChange = (e) => {
     setFoto(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formElement = e.target;
+    const formData = new FormData(formElement);
+    const dadosUsuario = Object.fromEntries(formData.entries());
+  
+    try {
+      const resposta = await UsuariosService.criarUsuario(dadosUsuario);
+      console.log(resposta);
+      navigate("/"); 
+    } catch (error) {
+      console.error("Dados retornados pelo servidor:", error.response?.data);
+    }
   };
 
   return (
@@ -44,10 +63,11 @@ function CadastroUsuario() {
         </div>
 
         {/* Formulário */}
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <input
               type="text"
+              name="nome"
               className="form-control"
               placeholder="Nome"
             />
@@ -55,6 +75,7 @@ function CadastroUsuario() {
           <div className="mb-3">
             <input
               type="text"
+              name="sobrenome"
               className="form-control"
               placeholder="Sobrenome"
             />
@@ -62,6 +83,7 @@ function CadastroUsuario() {
           <div className="mb-3">
             <input
               type="email"
+              name="email"
               className="form-control"
               placeholder="E-mail"
             />
@@ -70,6 +92,7 @@ function CadastroUsuario() {
           <div className="mb-3 position-relative">
             <input
               type={showPassword ? "text" : "password"}
+              name="senha"
               className="form-control"
               placeholder="Senha"
             />
