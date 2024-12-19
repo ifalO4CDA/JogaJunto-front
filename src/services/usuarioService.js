@@ -1,7 +1,6 @@
-import api from "./api"; 
+import api from "./api";
 
 export const UsuariosService = {
-  // Criar um novo usuário
   criarUsuario: async (dadosUsuario) => {
     const resposta = await api.post("/users", dadosUsuario);
     return resposta.data;
@@ -9,7 +8,7 @@ export const UsuariosService = {
 
   login: async (dadosLogin) => {
     const resposta = await api.post("/users/login", dadosLogin);
-    return resposta.data; // Retorna o token e as informações do usuário
+    return resposta.data;
   },
 
   exibirUsuarios: async () => {
@@ -17,8 +16,6 @@ export const UsuariosService = {
     return resposta.data;
   },
 
-
-  // Criar informações complementares
   criarInformacoes: async (dados) => {
     try {
       const resposta = await api.post("/moreInformations", dados);
@@ -29,7 +26,6 @@ export const UsuariosService = {
     }
   },
 
-  // Recuperar informações complementares pelo ID do usuário
   recuperarInformacoes: async (id) => {
     try {
       const resposta = await api.get(`/moreInformations/${id}`);
@@ -40,7 +36,6 @@ export const UsuariosService = {
     }
   },
 
-  // Editar informações complementares (se necessário)
   editarInformacoes: async (id, dados) => {
     try {
       const resposta = await api.put(`/moreInformations/${id}`, dados);
@@ -50,5 +45,4 @@ export const UsuariosService = {
       throw error;
     }
   },
-  
 };

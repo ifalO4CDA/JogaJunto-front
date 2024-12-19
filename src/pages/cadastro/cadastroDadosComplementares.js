@@ -6,9 +6,9 @@ import { EnderecoService } from "../../services/enderecoService";
 
 function CadastroComplementar() {
   const [dadosPessoais, setDadosPessoais] = useState({
-    dataNascimento: "",
+    data_nascimento: "",
     cpf: "",
-    fotoDocumento: null,
+    documento_oficial: null,
   });
 
   const [endereco, setEndereco] = useState({
@@ -18,6 +18,7 @@ function CadastroComplementar() {
     cidade: "",
     estado: "",
     complemento: "",
+    bairro: "",
   });
 
   const [termosAceitos, setTermosAceitos] = useState(false);
@@ -42,35 +43,34 @@ function CadastroComplementar() {
     // Dados para informações complementares
     const dadosComplementares = new FormData();
     dadosComplementares.append("id_usuario", idUsuario);
-    dadosComplementares.append(
-      "documento_oficial",
-      dadosPessoais.fotoDocumento
-        ? dadosPessoais.fotoDocumento.name
-        : "Documento não enviado"
-    );
+    dadosComplementares.append("documento_oficial", dadosPessoais.fotoDocumento);
     dadosComplementares.append("data_nascimento", dadosPessoais.dataNascimento);
     dadosComplementares.append("cpf", dadosPessoais.cpf);
 
     // Dados para endereço
     const dadosEndereco = {
+      cep: endereco.cep,
       logradouro: endereco.logradouro,
       numero: endereco.numero,
-      complemento: endereco.complemento,
-      bairro: endereco.cidade, // Corrigido para cidade
       cidade: endereco.cidade,
       estado: endereco.estado,
-      cep: endereco.cep,
-      id: idUsuario,
+      complemento: endereco.complemento,
+      bairro: endereco.bairro,
+      id_usuario: idUsuario,
     };
 
-    console.log("Dados Pessoais Enviados:", dadosComplementares);
+    console.log("Dados Pessoais Enviados:", {
+      id_usuario: idUsuario,
+      data_nascimento: dadosPessoais.dataNascimento,
+      cpf: dadosPessoais.cpf,
+      documento_oficial: dadosPessoais.fotoDocumento?.name,
+    });
+
     console.log("Dados de Endereço Enviados:", dadosEndereco);
 
     try {
       // Requisição para informações complementares
-      const respostaPessoal = await UsuariosService.criarInformacoes(
-        dadosComplementares
-      );
+      const respostaPessoal = await UsuariosService.criarInformacoes(dadosComplementares);
       console.log("Resposta da API para informações complementares:", respostaPessoal);
 
       // Requisição para criar endereço
@@ -115,6 +115,7 @@ function CadastroComplementar() {
                 accept="image/*"
                 onChange={handleFotoChange}
                 style={{ display: "none" }}
+                required
               />
             </div>
 
@@ -133,6 +134,7 @@ function CadastroComplementar() {
                       dataNascimento: e.target.value,
                     }))
                   }
+                  required
                 />
               </div>
 
@@ -148,6 +150,7 @@ function CadastroComplementar() {
                       cpf: e.target.value,
                     }))
                   }
+                  required
                 />
               </div>
 
@@ -155,7 +158,9 @@ function CadastroComplementar() {
               <div className="row">
                 <div className="col-md-6 mb-3">
                   <input
-                    type="text"
+                    type="number"
+                    maxLength={8}
+                    minLength={8}
                     className="form-control"
                     placeholder="CEP"
                     value={endereco.cep}
@@ -165,6 +170,7 @@ function CadastroComplementar() {
                         cep: e.target.value,
                       }))
                     }
+                    required
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -179,6 +185,7 @@ function CadastroComplementar() {
                         logradouro: e.target.value,
                       }))
                     }
+                    required
                   />
                 </div>
               </div>
@@ -196,6 +203,7 @@ function CadastroComplementar() {
                         numero: e.target.value,
                       }))
                     }
+                    required
                   />
                 </div>
                 <div className="col-md-4 mb-3">
@@ -210,6 +218,7 @@ function CadastroComplementar() {
                         cidade: e.target.value,
                       }))
                     }
+                    required
                   />
                 </div>
                 <div className="col-md-4 mb-3">
@@ -225,11 +234,28 @@ function CadastroComplementar() {
                         estado: e.target.value,
                       }))
                     }
+                    required
                   />
                 </div>
               </div>
 
-              <div className="mb-3">
+              <div className="col-md-4 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Bairro"
+                  value={endereco.bairro}
+                  onChange={(e) =>
+                    setEndereco((prev) => ({
+                      ...prev,
+                      bairro: e.target.value,
+                    }))
+                  }
+                  required
+                />
+              </div>
+
+              <div className="col-md-4 mb-3">
                 <input
                   type="text"
                   className="form-control"
@@ -241,6 +267,7 @@ function CadastroComplementar() {
                       complemento: e.target.value,
                     }))
                   }
+                  required
                 />
               </div>
 
@@ -252,6 +279,7 @@ function CadastroComplementar() {
                   id="termosCheck"
                   checked={termosAceitos}
                   onChange={(e) => setTermosAceitos(e.target.checked)}
+                  required
                 />
                 <label className="form-check-label" htmlFor="termosCheck">
                   Eu aceito os{" "}
