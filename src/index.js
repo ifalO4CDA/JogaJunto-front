@@ -5,6 +5,10 @@ import './styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { iniciarLogoffAutomatico } from "./utils/auth"; // Importe a função
+
+// Inicie o logoff automático
+iniciarLogoffAutomatico();
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

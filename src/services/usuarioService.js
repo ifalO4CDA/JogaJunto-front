@@ -7,26 +7,48 @@ export const UsuariosService = {
     return resposta.data;
   },
 
+  login: async (dadosLogin) => {
+    const resposta = await api.post("/users/login", dadosLogin);
+    return resposta.data; // Retorna o token e as informações do usuário
+  },
+
   exibirUsuarios: async () => {
     const resposta = await api.get("/users");
     return resposta.data;
   },
 
-//   // Buscar todos os usuários
-//   buscarUsuarios: async () => {
-//     const resposta = await api.get("/usuarios");
-//     return resposta.data;
-//   },
 
-//   // Alterar informações de um usuário
-//   alterarUsuario: async (id, dadosUsuario) => {
-//     const resposta = await api.put(`/usuarios/${id}`, dadosUsuario);
-//     return resposta.data;
-//   },
+  // Criar informações complementares
+  criarInformacoes: async (dados) => {
+    try {
+      const resposta = await api.post("/moreInformations", dados);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao criar informações complementares:", error.response?.data || error.message);
+      throw error;
+    }
+  },
 
-//   // Remover um usuário
-//   removerUsuario: async (id) => {
-//     const resposta = await api.delete(`/usuarios/${id}`);
-//     return resposta.data;
-//   },
+  // Recuperar informações complementares pelo ID do usuário
+  recuperarInformacoes: async (id) => {
+    try {
+      const resposta = await api.get(`/moreInformations/${id}`);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao recuperar informações complementares:", error.response?.data || error.message);
+      throw error;
+    }
+  },
+
+  // Editar informações complementares (se necessário)
+  editarInformacoes: async (id, dados) => {
+    try {
+      const resposta = await api.put(`/moreInformations/${id}`, dados);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao editar informações complementares:", error.response?.data || error.message);
+      throw error;
+    }
+  },
+  
 };

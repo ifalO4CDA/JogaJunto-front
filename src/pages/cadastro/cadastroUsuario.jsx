@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import bcrypt from "bcryptjs";
 import "../../styles/pages/cadastro/cadastroUsuario.css";
 import Ilustracao from "../../assets/Ilustracao.png";
 import { UsuariosService } from "../../services/usuarioService";
@@ -22,11 +21,6 @@ function CadastroUsuario() {
     const dadosUsuario = Object.fromEntries(formData.entries());
   
     try {
-      const salt = bcrypt.genSaltSync(10);
-      const senhaHash = bcrypt.hashSync(dadosUsuario.senha, salt);
-
-      dadosUsuario.senha = senhaHash;
-
       const resposta = await UsuariosService.criarUsuario(dadosUsuario);
       console.log(resposta);
       alert("Usuário cadastrado com sucesso!");

@@ -1,103 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import EditarPerfilModal from "../../components/editarPerfilModal";
-import CardQuadra from "../../components/cardQuadra"; // Usado para grupos, salas e reservas
 import "../../styles/pages/perfil/perfilPage.css";
 
 const PerfilPage = () => {
   const [usuario, setUsuario] = useState(null); // Estado para armazenar os dados do usuário
   const [mostrarModal, setMostrarModal] = useState(false); // Controla o modal de edição
-  const [error, setError] = useState(false); // Estado para controlar erros
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Requisição à API para buscar os dados do usuário
-    /*
-    fetch("http://sua-api.com/usuario/perfil", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Exemplo de uso de token
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao buscar dados do usuário");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setUsuario(data); // Define os dados retornados pela API
-        setError(false); // Reseta o estado de erro
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar o perfil do usuário:", err);
-        setError(true); // Define o estado de erro
-      });
-    */
+    // Carrega as informações do localStorage
+    try {
+      const usuarioLogado = {
+        id: localStorage.getItem("id"),
+        nome: localStorage.getItem("nome"),
+        sobrenome: localStorage.getItem("sobrenome"),
+        email: localStorage.getItem("email"),
+        numero_celular: localStorage.getItem("numero_celular"),
+        foto_perfil: localStorage.getItem("foto_perfil"),
+        endereco: localStorage.getItem("endereco")
+      };
 
-    // Temporariamente simulando os dados do usuário
-    setUsuario({
-      id: 1,
-      nome: "João Silva",
-      sobrenome: "da Costa",
-      foto: "https://via.placeholder.com/150",
-      cadastroCompleto: false, // Controle se o cadastro está completo
-      salas: [
-        {
-          id: 1,
-          nome: "Sala de Treinamento",
-          precoHora: "R$ 200/H",
-          bairro: "Centro",
-          tipo: "Reunião",
-          imagem: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          nome: "Sala de Estudos",
-          precoHora: "R$ 150/H",
-          bairro: "Jatiúca",
-          tipo: "Coworking",
-          imagem: "https://via.placeholder.com/150",
-        },
-      ],
-      grupos: [
-        {
-          id: 1,
-          nome: "Amigos do Futsal",
-          precoHora: "N/A",
-          bairro: "Virtual",
-          tipo: "Grupo Esportivo",
-          imagem: "https://via.placeholder.com/150",
-        },
-        {
-          id: 2,
-          nome: "Turma do Vôlei",
-          precoHora: "N/A",
-          bairro: "Virtual",
-          tipo: "Grupo Social",
-          imagem: "https://via.placeholder.com/150",
-        },
-      ],
-      reservas: [
-        {
-          id: 1,
-          nome: "Arena Central",
-          precoHora: "R$ 100/H",
-          bairro: "Centro",
-          tipo: "Futsal",
-          imagem: "https://via.placeholder.com/150",
-        },
-      ],
-    });
-  }, []);
-
-  // Redireciona para /home se houver erro na requisição
-  useEffect(() => {
-    if (error) {
-      navigate("/home");
+      // Verifica se o ID do usuário está presente
+      if (!usuarioLogado.id) {
+        console.warn("Usuário não encontrado. Redirecionando para a página inicial.");
+        navigate("/"); // Redireciona para a home
+      } else {
+        setUsuario(usuarioLogado); // Define os dados do usuário
+      }
+    } catch (error) {
+      console.error("Erro ao carregar dados do localStorage:", error);
+      navigate("/"); // Redireciona em caso de erro
     }
-  }, [error, navigate]);
+  }, [navigate]);
 
   const handleEditarPerfil = () => {
     setMostrarModal(true);
@@ -115,7 +50,7 @@ const PerfilPage = () => {
           <div className="perfil-header">
             {/* Foto do Usuário */}
             <img
-              src={usuario.foto}
+              src={usuario.foto_perfil || "https://via.placeholder.com/150"}
               alt={usuario.nome}
               className="perfil-foto"
             />
@@ -132,8 +67,8 @@ const PerfilPage = () => {
                 </button>
               </h2>
 
-              {/* Botão de Complementar Cadastro */}
-              {!usuario.cadastroCompleto && (
+              <p className="perfil-email">{usuario.email}</p>
+              {usuario.endereco === "undefined" && (
                 <button
                   className="btn btn-complementar"
                   onClick={handleComplementarCadastro}
@@ -159,21 +94,7 @@ const PerfilPage = () => {
             <section>
               <h3>Suas Salas</h3>
               <div className="cards-container">
-                {usuario.salas.length > 0 ? (
-                  usuario.salas.map((sala) => (
-                    <CardQuadra
-                      key={sala.id}
-                      id={sala.id}
-                      imagem={sala.imagem}
-                      nome={sala.nome}
-                      precoHora={sala.precoHora}
-                      bairro={sala.bairro}
-                      tipo={sala.tipo}
-                    />
-                  ))
-                ) : (
-                  <p>Você ainda não tem salas cadastradas.</p>
-                )}
+                <p>Aqui serão listadas as salas do usuário.</p>
               </div>
             </section>
 
@@ -181,21 +102,7 @@ const PerfilPage = () => {
             <section>
               <h3>Seus Grupos</h3>
               <div className="cards-container">
-                {usuario.grupos.length > 0 ? (
-                  usuario.grupos.map((grupo) => (
-                    <CardQuadra
-                      key={grupo.id}
-                      id={grupo.id}
-                      imagem={grupo.imagem}
-                      nome={grupo.nome}
-                      precoHora={grupo.precoHora}
-                      bairro={grupo.bairro}
-                      tipo={grupo.tipo}
-                    />
-                  ))
-                ) : (
-                  <p>Você ainda não participa de nenhum grupo.</p>
-                )}
+                <p>Aqui serão listados os grupos do usuário.</p>
               </div>
             </section>
 
@@ -203,21 +110,7 @@ const PerfilPage = () => {
             <section>
               <h3>Suas Reservas</h3>
               <div className="cards-container">
-                {usuario.reservas.length > 0 ? (
-                  usuario.reservas.map((reserva) => (
-                    <CardQuadra
-                      key={reserva.id}
-                      id={reserva.id}
-                      imagem={reserva.imagem}
-                      nome={reserva.nome}
-                      precoHora={reserva.precoHora}
-                      bairro={reserva.bairro}
-                      tipo={reserva.tipo}
-                    />
-                  ))
-                ) : (
-                  <p>Você ainda não fez nenhuma reserva.</p>
-                )}
+                <p>Aqui serão listadas as reservas do usuário.</p>
               </div>
             </section>
           </div>
