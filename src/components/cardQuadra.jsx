@@ -17,7 +17,11 @@ function CardQuadra({ id, imagem, nome, precoHora, bairro, tipo }) {
       tabIndex={0} // Torna o elemento acessível via teclado
       onKeyPress={(e) => e.key === "Enter" && handleCardClick()} // Suporte para "Enter" no teclado
     >
-      <img src={imagem} alt={nome} className="card-quadra-imagem" />
+      <img
+        src={imagem || "https://via.placeholder.com/150"}
+        alt={nome}
+        className="card-quadra-imagem"
+      />
       <div className="card-quadra-conteudo">
         <h5 className="card-quadra-nome">{nome}</h5>
         <p className="card-quadra-preco">{precoHora}</p>

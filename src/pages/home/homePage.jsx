@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import BarraDePesquisa from "../../components/barraDePesquisa";
 import MapaInterativo from "../../components/mapaInterativo";
 import CardQuadra from "../../components/cardQuadra"; // Importa o componente ajustado
+import { ArenaService } from "../../services/arenaService"; // Serviço para manipular arenas
 import "../../styles/pages/home/homePage.css"; // CSS sempre por último
 
 function HomePage() {
@@ -14,62 +15,24 @@ function HomePage() {
 
   const [quadras, setQuadras] = useState([]); // Estado para armazenar as quadras
   const [error, setError] = useState(false); // Estado para identificar erros
+  const [loading, setLoading] = useState(true); // Estado de carregamento
 
   useEffect(() => {
-    // Requisição para obter as quadras
-    /*
-    fetch("http://sua-api.com/quadras")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao buscar quadras");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setQuadras(data); // Define os dados retornados pela API
-        setError(false); // Reseta o erro caso a requisição tenha sucesso
-      })
-      .catch((err) => {
+    const fetchQuadras = async () => {
+      setLoading(true);
+      try {
+        const resposta = await ArenaService.getCourts();
+        setQuadras(resposta.data); // Define os dados retornados pela API
+        setError(false);
+      } catch (err) {
         console.error("Erro ao buscar quadras:", err);
         setError(true); // Define o estado de erro
-      });
-    */
+      } finally {
+        setLoading(false); // Finaliza o carregamento
+      }
+    };
 
-    // Temporariamente usando dados de fallback
-    setQuadras([
-      {
-        id: 1,
-        imagem: "https://via.placeholder.com/150",
-        nome: "Santíssimo Senhor",
-        precoHora: "R$ 80/H",
-        bairro: "Serraria",
-        tipo: "Futsal",
-      },
-      {
-        id: 2,
-        imagem: "https://via.placeholder.com/150",
-        nome: "Arena Central",
-        precoHora: "R$ 100/H",
-        bairro: "Centro",
-        tipo: "Vôlei",
-      },
-      {
-        id: 3,
-        imagem: "https://via.placeholder.com/150",
-        nome: "Quadra Esportiva",
-        precoHora: "R$ 70/H",
-        bairro: "Jatiúca",
-        tipo: "Basquete",
-      },
-      {
-        id: 4,
-        imagem: "https://via.placeholder.com/150",
-        nome: "Quadra Verde",
-        precoHora: "R$ 60/H",
-        bairro: "Pajuçara",
-        tipo: "Tênis",
-      },
-    ]);
+    fetchQuadras();
   }, []);
 
   const handleSearch = () => {
@@ -122,22 +85,27 @@ function HomePage() {
       {/* Seção Perto de Você */}
       <section className="near-you-section">
         <h4 className="section-title">Perto de você</h4>
-        {error ? (
+        {loading ? (
+          <p>Carregando quadras...</p>
+        ) : error ? (
           <p className="text-danger">Erro ao carregar as quadras.</p>
         ) : (
           <div className="quadras-container">
-            {quadras.map((quadra) => (
-              <CardQuadra
-                key={quadra.id}
-                id={quadra.id} // Adiciona o ID para navegação
-                imagem={quadra.imagem}
-                nome={quadra.nome}
-                precoHora={quadra.precoHora}
-                bairro={quadra.bairro}
-                tipo={quadra.tipo}
-              />
-            ))}
-          </div>
+          {quadras.map((quadra) => (
+            <CardQuadra
+              key={quadra.id_quadra}
+              id={quadra.id_quadra}
+              imagem="https://via.placeholder.com/150" // Ajuste para imagens reais, se houver
+              nome={quadra.nome || "Quadra Sem Nome"}
+              precoHora={`R$ ${parseFloat(quadra.preco_hora).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+              })} /h`}
+              bairro={quadra.address?.bairro || "Localização não disponível"}
+              tipo={quadra.tipo || "Tipo não especificado"}
+            />
+          ))}
+        </div>
+        
         )}
       </section>
     </div>
