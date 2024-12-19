@@ -49,14 +49,14 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/explorar" element={<Explorar />} />
 
-        <Route path="/grupos/informacoes" element={<GruposInformacoes />} />
+        <Route path="/grupos/informacoes/:id" element={<GruposInformacoes />} />
         <Route path="/grupos" element={<Grupos/>} />
 
-        <Route path="/salas/informacoes" element={<SalasInformacoes />} />
+        <Route path="/salas/informacoes/:id" element={<SalasInformacoes />} />
         <Route path="/salas" element={<SalasTelas />} />
 
         <Route path="/arena/reserva" element={<ArenaReserva />} />
-        <Route path="/arena/:arenaId" element={<ArenaInformacoes />} />
+        <Route path="/arena/:id" element={<ArenaInformacoes />} />
 
         <Route path="/perfil" element={<Perfil />} />
 

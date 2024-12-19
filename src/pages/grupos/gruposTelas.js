@@ -1,48 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BarraDePesquisa from "../../components/barraDePesquisa";
-import CardQuadra from "../../components/cardQuadra";
-import CadastroGrupoModal from "../../components/cadastroGrupoModal"; // Importando o modal
+import CardGrupo from "../../components/cardGrupo"; // Componente para exibir o card do grupo
+import CadastroGrupoModal from "../../components/cadastroGrupoModal";
+import { GruposService } from "../../services/grupoService"; // Importa o serviço
 import "../../styles/pages/grupos/gruposTelas.css";
 
 function GruposTela() {
-  const [isPublic, setIsPublic] = useState(true); // Controla se estamos mostrando grupos públicos ou privados
+  const [grupos, setGrupos] = useState([]); // Armazena os grupos do usuário
   const [showModal, setShowModal] = useState(false); // Controla a exibição do modal
+  const [loading, setLoading] = useState(true); // Indica se os dados estão carregando
 
-  const publicGroups = [
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Galera da Grota",
-      precoHora: "R$ 80/H",
-      bairro: "Serraria",
-      tipo: "Futsal",
-    },
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Arena Central",
-      precoHora: "R$ 100/H",
-      bairro: "Centro",
-      tipo: "Vôlei",
-    },
-  ];
+  const idUsuario = localStorage.getItem("id"); // Pega o ID do usuário logado
 
-  const privateGroups = [
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "O Racha é Realidade",
-      precoHora: "R$ 70/H",
-      bairro: "Jatiúca",
-      tipo: "Basquete",
-    },
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Os Bagunceiros",
-      precoHora: "R$ 60/H",
-      bairro: "Pajuçara",
-      tipo: "Tênis",
-    },
-  ];
+  useEffect(() => {
+    const fetchGrupos = async () => {
+      try {
+        setLoading(true);
+        const gruposUsuario = await GruposService.getGruposPorUsuario(idUsuario); // Chamada usando GET
+        setGrupos(gruposUsuario); // Atualiza o estado com os grupos recebidos
+      } catch (error) {
+        console.error("Erro ao buscar os grupos do usuário:", error.response?.data || error.message);
+        setGrupos([]); // Define um fallback vazio em caso de erro
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchGrupos();
+  }, [idUsuario]);
+  
 
-  // Funções para abrir/fechar o modal
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -63,22 +50,9 @@ function GruposTela() {
         />
       </div>
 
-      {/* Botões de Público/Privado e Criar Grupo */}
+      {/* Botões e Criar Grupo */}
       <div className="groups-page__actions d-flex justify-content-between mb-4">
-        <div className="d-flex flex-fill">
-          <button
-            className={`btn ${isPublic ? "btn-primary" : "btn-outline-primary"} flex-fill me-2`}
-            onClick={() => setIsPublic(true)} // Atualiza o estado para Público
-          >
-            Públicos
-          </button>
-          <button
-            className={`btn ${!isPublic ? "btn-primary" : "btn-outline-primary"} flex-fill`}
-            onClick={() => setIsPublic(false)} // Atualiza o estado para Privado
-          >
-            Privados
-          </button>
-        </div>
+        <h3>Seus Grupos</h3>
         <button className="btn btn-success ms-2" onClick={handleShowModal}>
           Criar Grupo
         </button>
@@ -86,17 +60,22 @@ function GruposTela() {
 
       {/* Lista de Grupos */}
       <div className="groups-page__list row">
-        {(isPublic ? publicGroups : privateGroups).map((group, index) => (
-          <div className="col-lg-4 col-md-6 mb-4" key={index}>
-            <CardQuadra
-              imagem={group.imagem}
-              nome={group.nome}
-              precoHora={group.precoHora}
-              bairro={group.bairro}
-              tipo={group.tipo}
-            />
-          </div>
-        ))}
+        {loading ? (
+          <div className="text-center">Carregando...</div>
+        ) : grupos.length > 0 ? (
+          grupos.map((grupo) => (
+            <div className="col-lg-4 col-md-6 mb-4" key={grupo.id_grupo}>
+              <CardGrupo
+                id={grupo.id_grupo}
+                nome={grupo.nome_grupo}
+                maxIntegrantes={grupo.max_integrantes}
+                qtdAtualIntegrantes={grupo.qtd_atual_integrantes}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="text-center">Nenhum grupo encontrado.</div>
+        )}
       </div>
 
       {/* Modal de Criação de Grupo */}

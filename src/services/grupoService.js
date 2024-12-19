@@ -1,38 +1,33 @@
-import api from './api';
+import api from "./api";
 
-export const GrupoService = {
-    getGrupos: async () => {
-        const response = await api.get('/group');
-        return response.data;
-    },
+export const GruposService = {
+  // Criar um novo grupo
+  criarGrupo: async (dadosGrupo) => {
+    const resposta = await api.post("/group", dadosGrupo);
+    return resposta.data;
+  },
 
-    getGrupoId: async (id) => {
-        const response = await api.get(`/group/${id}`);
-        return response.data;
-    },
+  // Buscar grupos do usuário usando GET com query parameters
+  getGruposPorUsuario: async (idUsuario) => {
+    try {
+      const resposta = await api.get(`/group/usuario`, {
+        params: { id_usuario: idUsuario }, // Envia como parâmetro na URL
+      });
+      return resposta.data.data; // Retorna a lista de grupos
+    } catch (error) {
+      console.error("Erro ao buscar grupos do usuário:", error.response?.data || error.message);
+      throw error;
+    }
+  },
 
-    createGrupo: async (grupo) => {
-        const response = await api.post('/group', grupo);
-        return response.data;
-    },
-
-    updateGrupo: async (grupo) => {
-        const response = await api.put(`/group/${grupo.id}`, grupo);
-        return response.data;
-    },
-
-    deleteGrupo: async (id) => {
-        const response = await api.delete(`/group/${id}`);
-        return response.data;
-    },
-
-    
-}
-
-// app.use('/api/users', userRoutes); 
-// app.use('/api/addresses', addressRoutes);
-// app.use('/api/moreInformations', moreInformationsRoutes);
-// app.use('/api/reservation', reservationRoutes);
-// app.use('/api/group', groupRoutes);
-// app.use('/api/evaluation', evaluationRoutes);
-// app.use('/api/rooms/', require('./routes/roomRoutes'));
+  // Buscar informações de um grupo específico
+  getGrupoPorId: async (idGrupo) => {
+    try {
+      const resposta = await api.get(`/group/${idGrupo}`); // Envia o ID no caminho da URL
+      return resposta.data.data; // Retorna os dados do grupo
+    } catch (error) {
+      console.error("Erro ao buscar informações do grupo:", error.response?.data || error.message);
+      throw error;
+    }
+  },
+};

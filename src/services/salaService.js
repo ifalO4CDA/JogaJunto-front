@@ -1,19 +1,45 @@
-import api from "./api";
+import api from "./api"; // Importa a configuração do Axios
 
-// Serviço para as requisições relacionadas a salas
 export const SalasService = {
-  getSalas: async () => {
-    const response = await api.get("/salas");
-    return response.data;
+  // Criar uma nova sala
+  criarSala: async (dadosSala) => {
+    try {
+      const resposta = await api.post("/rooms", dadosSala);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao criar sala:", error.response?.data || error.message);
+      throw error;
+    }
   },
 
-  createSala: async (data) => {
-    const response = await api.post("/salas", data);
-    return response.data;
+  getSalaPorId: async (id) => {
+    try {
+      const resposta = await api.get(`/rooms/${id}`);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao buscar informações da sala:", error.response?.data || error.message);
+      throw error;
+    }
   },
 
-  getSalaById: async (id) => {
-    const response = await api.get(`/salas/${id}`);
-    return response.data;
+  // Buscar todas as salas de um usuário pelo ID do usuário
+  getSalasPorUsuario: async (idUsuario) => {
+    try {
+      const resposta = await api.get(`/rooms/user/${idUsuario}`);
+      return resposta.data.data; // Certifique-se de acessar 'data'
+    } catch (error) {
+      console.error("Erro ao buscar salas por usuário:", error.response?.data || error);
+      throw error;
+    }
+  },
+
+  getMembrosDaSala: async (id) => {
+    try {
+      const resposta = await api.get(`/rooms/${id}/users`);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao buscar membros da sala:", error.response?.data || error.message);
+      throw error;
+    }
   },
 };

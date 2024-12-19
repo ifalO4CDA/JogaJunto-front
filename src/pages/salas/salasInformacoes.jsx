@@ -1,154 +1,111 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import CardQuadra from "../../components/cardQuadra";
-import ModalConvite from "../../components/modalConvite";
-import EdicaoSalaModal from "../../components/edicaoSalaModal";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { SalasService } from "../../services/salaService"; // Importa o service
 import "../../styles/pages/salas/salasInformacoes.css";
 
+function SalasInformacoes() {
+  const { id } = useParams(); // ID da sala vindo da rota
+  const navigate = useNavigate(); // Hook para navegação
+  const [sala, setSala] = useState(null); // Dados da sala
+  const [membros, setMembros] = useState([]); // Lista de membros
+  const [loading, setLoading] = useState(true); // Controle de carregamento
+  const [error, setError] = useState(null); // Controle de erros
 
-const SalaInformacoes = () => {
-  const [isOwner, setIsOwner] = useState(true); // Simula se o usuário é dono da sala
-  const [participantes, setParticipantes] = useState([
-    { id: 1, nome: "João Silva", foto: "https://via.placeholder.com/40", confirmado: false },
-    { id: 2, nome: "Maria Souza", foto: "https://via.placeholder.com/40", confirmado: false },
-    { id: 3, nome: "Carlos Lima", foto: "https://via.placeholder.com/40", confirmado: false },
-  ]);
-  const [showModalEdicao, setShowModalEdicao] = useState(false);
-  const [showModalConvite, setShowModalConvite] = useState(false);
+  useEffect(() => {
+    const fetchDadosSala = async () => {
+      try {
+        // Requisição para obter os detalhes da sala
+        const salaData = await SalasService.getSalaPorId(id);
+        setSala(salaData.data);
 
-  // Estado da reserva
-  const [reserva, setReserva] = useState({
-    quadra: {
-      id: 1,
-      imagem: "https://via.placeholder.com/150",
-      nome: "Arena Central",
-      precoHora: "R$ 200/H",
-      bairro: "Centro",
-      tipo: "Futsal",
-    },
-    dia: "2024-06-20",
-    horario: "18:00 - 20:00",
-    capacidade: 10, // Capacidade máxima
-  });
+        // Requisição para obter a lista de membros
+        const membrosData = await SalasService.getMembrosDaSala(id);
+        setMembros(membrosData.data);
 
-  // Calcular progresso baseado em confirmações
-  const participantesConfirmados = participantes.filter((p) => p.confirmado).length;
-  const progresso = Math.round((participantesConfirmados / reserva.capacidade) * 100);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erro ao carregar os dados da sala:", error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
 
-  // Função para confirmar pagamento
-  const confirmarPagamento = (id) => {
-    setParticipantes((prev) =>
-      prev.map((p) =>
-        p.id === id ? { ...p, confirmado: true } : p
-      )
-    );
-  };
+    fetchDadosSala();
+  }, [id]);
 
-  const salaAtual = {
-    foto: "https://via.placeholder.com/150",
-    nome: "Sala de Treinamento",
-    cidade: "Maceió",
-    bairro: "Centro",
-    tipo: "Reunião",
-  };
+  if (loading) {
+    return <p>Carregando...</p>;
+  }
 
-  const salvarAlteracoes = (dados) => {
-    console.log("Dados atualizados da sala:", dados);
-    setShowModalEdicao(false);
-  };
+  if (error) {
+    return <p>Erro: {error}</p>;
+  }
+
+  if (!sala) {
+    return <p>Erro ao carregar as informações da sala.</p>;
+  }
 
   return (
     <div className="container mt-4 sala-informacoes-container">
-      {/* Header */}
+      {/* Header da Sala */}
       <div className="sala-header text-center">
-        <h2>Nome da Sala</h2>
-        {isOwner && (
-          <div className="sala-acoes">
-            <button className="btn btn-primary btn-menor" onClick={() => setShowModalConvite(true)}>Convidar</button>
-            <button className="btn btn-warning btn-menor" onClick={() => setShowModalEdicao(true)}>Editar</button>
-            <button className="btn btn-danger btn-menor">Excluir</button>
-          </div>
+        <h2>Detalhes da Sala</h2>
+        <h3>{sala.id_sala ? `Sala #${sala.id_sala}` : "Sala sem Nome"}</h3>
+        <p>{sala.privada ? "Privada" : "Pública"}</p>
+        {sala.criador && (
+          <p>
+            Criador: {sala.criador.nome} - {sala.criador.email}
+          </p>
         )}
       </div>
 
-      {showModalConvite && (
-        <ModalConvite
-          onClose={() => setShowModalConvite(false)}
-          tipo="sala" // Pode ser "sala" ou "grupo"
-          nome="Nome da Sala/Grupo"
-        />
-      )}
-
-      {showModalEdicao && (
-        <EdicaoSalaModal
-          show={showModalEdicao}
-          handleClose={() => setShowModalEdicao(false)}
-          dadosSala={salaAtual}
-          handleSalvar={salvarAlteracoes}
-        />
-      )}
-
-      {/* Reserva */}
-      <div className="reserva-container mb-4">
-        <h5 className="text-center mb-3">Reserva da Quadra</h5>
-        <CardQuadra
-          id={reserva.quadra.id}
-          imagem={reserva.quadra.imagem}
-          nome={reserva.quadra.nome}
-          precoHora={reserva.quadra.precoHora}
-          bairro={reserva.quadra.bairro}
-          tipo={reserva.quadra.tipo}
-        />
-        {/* Progresso */}
-        <div className="mt-3">
-          <label className="d-block text-center">
-            Confirmação de Pagamento ({participantesConfirmados} / {reserva.capacidade})
-          </label>
-          <div className="progress">
-            <div
-              className="progress-bar bg-success"
-              role="progressbar"
-              style={{ width: `${progresso}%` }}
-            ></div>
-          </div>
-        </div>
+      {/* Informações da Sala */}
+      <div className="sala-info mb-4">
+        <h5>Detalhes da Sala</h5>
+        <p>
+          <strong>Reserva Ativa:</strong> {sala.reserva_ativa ? "Sim" : "Não"}
+        </p>
+        <p>
+          <strong>Máximo de Integrantes:</strong> {sala.max_integrantes}
+        </p>
+        <p>
+          <strong>Quantidade Atual de Integrantes:</strong>{" "}
+          {sala.qtd_atual_integrantes}
+        </p>
       </div>
 
-      {/* Participantes */}
-      <div className="participantes-container">
-        <h5>Participantes</h5>
-        {participantes.map((p) => (
-          <div key={p.id} className="participantes-item">
-            <div className="participantes-info">
-              <img src={p.foto} alt={p.nome} />
-              <span>
-                {p.nome}{" "}
-                {p.confirmado ? (
-                  <span className="badge bg-success ms-2">Confirmado</span>
-                ) : (
-                  <span className="badge bg-secondary ms-2">Pendente</span>
-                )}
-              </span>
-            </div>
-            {!p.confirmado && (
-              <button
-                className="btn btn-sm btn-success btn-confirmar-pagamento"
-                onClick={() => confirmarPagamento(p.id)}
+      {/* Membros da Sala */}
+      <div className="sala-membros mb-4">
+        <h5>Membros da Sala</h5>
+        {membros.length > 0 ? (
+          <ul className="list-group">
+            {membros.map((membro) => (
+              <li
+                key={membro.id_usuario}
+                className="list-group-item d-flex justify-content-between align-items-center"
               >
-                Confirmar Pagamento
-              </button>
-            )}
-          </div>
-        ))}
+                <span>{membro.nome}</span>
+                <span className="badge bg-primary rounded-pill">{membro.email}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Não há membros cadastrados nesta sala.</p>
+        )}
       </div>
 
-      {/* Botões Finais */}
-      <div className="botoes-gerais mt-4">
-        <button className="btn btn-success btn-importante">Confirmar Participação</button>
-        <button className="btn btn-danger btn-importante">Sair da Sala</button>
+      {/* Botões de Ação */}
+      <div className="botoes-acoes mt-4 text-center">
+        <button className="btn btn-danger mx-2">Excluir Sala</button>
+        <button
+          className="btn btn-secondary mx-2"
+          onClick={() => navigate("/")} 
+        >
+          Voltar
+        </button>
       </div>
     </div>
   );
-};
+}
 
-export default SalaInformacoes;
+export default SalasInformacoes;

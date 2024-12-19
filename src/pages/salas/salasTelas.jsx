@@ -1,48 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BarraDePesquisa from "../../components/barraDePesquisa";
-import CardQuadra from "../../components/cardQuadra";
-import CadastroSalaModal from "../../components/cadastroSalaModal"; // Modal para criar salas
-import "../../styles/pages/salas/salasTelas.css"; // Estilos específicos da tela
+import CardSala from "../../components/cardSala"; // Importa o novo card
+import CadastroSalaModal from "../../components/cadastroSalaModal";
+import { SalasService } from "../../services/salaService";
+import "../../styles/pages/salas/salasTelas.css";
 
 function SalasTela() {
+  const [salasPublicas, setSalasPublicas] = useState([]);
+  const [salasPrivadas, setSalasPrivadas] = useState([]);
   const [isPublic, setIsPublic] = useState(true); // Controla se estamos mostrando salas públicas ou privadas
   const [showModal, setShowModal] = useState(false); // Controla a exibição do modal
 
-  const publicRooms = [
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Sala Estratégica",
-      precoHora: "R$ 50/H",
-      bairro: "Centro",
-      tipo: "Reunião",
-    },
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Sala de Estudos",
-      precoHora: "R$ 30/H",
-      bairro: "Jatiúca",
-      tipo: "Estudos",
-    },
-  ];
+  const idUsuario = localStorage.getItem("id");
 
-  const privateRooms = [
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Sala Privativa",
-      precoHora: "R$ 100/H",
-      bairro: "Pajuçara",
-      tipo: "Consultoria",
-    },
-    {
-      imagem: "https://via.placeholder.com/150",
-      nome: "Sala Fechada",
-      precoHora: "R$ 80/H",
-      bairro: "Serraria",
-      tipo: "Oficina",
-    },
-  ];
+  useEffect(() => {
+    const fetchSalas = async () => {
+      try {
+        const resposta = await SalasService.getSalasPorUsuario(idUsuario); // Já retorna o array de salas
+        const publicas = resposta.filter((sala) => !sala.privada);
+        const privadas = resposta.filter((sala) => sala.privada);
+  
+        setSalasPublicas(publicas);
+        setSalasPrivadas(privadas);
+      } catch (error) {
+        console.error("Erro na requisição de salas:", error);
+      }
+    };
+  
+    fetchSalas();
+  }, [idUsuario]);
+  
 
-  // Funções para abrir/fechar o modal
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -68,13 +56,13 @@ function SalasTela() {
         <div className="toggle-buttons">
           <button
             className={`btn ${isPublic ? "btn-primary" : "btn-outline-primary"}`}
-            onClick={() => setIsPublic(true)} // Atualiza o estado para Público
+            onClick={() => setIsPublic(true)}
           >
             Públicas
           </button>
           <button
             className={`btn ${!isPublic ? "btn-primary" : "btn-outline-primary"}`}
-            onClick={() => setIsPublic(false)} // Atualiza o estado para Privado
+            onClick={() => setIsPublic(false)}
           >
             Privadas
           </button>
@@ -86,14 +74,17 @@ function SalasTela() {
 
       {/* Lista de Salas */}
       <div className="rooms-page__list">
-        {(isPublic ? publicRooms : privateRooms).map((room, index) => (
-          <CardQuadra
-            key={index}
-            imagem={room.imagem}
-            nome={room.nome}
-            precoHora={room.precoHora}
-            bairro={room.bairro}
-            tipo={room.tipo}
+        {(isPublic ? salasPublicas : salasPrivadas).map((sala) => (
+          <CardSala
+            key={sala.id_sala}
+            id={sala.id_sala}
+            imagem={null} // Caso queira adicionar imagens no futuro
+            nome={`Sala #${sala.id_sala}`}
+            maxIntegrantes={sala.max_integrantes}
+            qtdAtualIntegrantes={sala.qtd_atual_integrantes}
+            privada={sala.privada}
+            reservaAtiva={sala.reserva_ativa}
+            grupo={sala.grupo}
           />
         ))}
       </div>

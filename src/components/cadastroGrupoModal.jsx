@@ -1,12 +1,41 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import "../styles/components/cadastroGrupoModal.css"; // Caminho correto após mover o arquivo
+import "../styles/components/cadastroGrupoModal.css";
+import { GruposService } from "../services/grupoService";
 
 function CadastroGrupoModal({ show, handleClose }) {
-  const [fotoGrupo, setFotoGrupo] = useState(null);
+  const [nomeGrupo, setNomeGrupo] = useState(""); // Nome do grupo
+  const [maxIntegrantes, setMaxIntegrantes] = useState(20); // Máximo de integrantes, padrão inicial
+  const [loading, setLoading] = useState(false); // Indica requisição em andamento
 
-  const handleFotoChange = (e) => {
-    setFotoGrupo(URL.createObjectURL(e.target.files[0]));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!nomeGrupo) {
+      alert("Por favor, preencha o nome do grupo.");
+      return;
+    }
+
+    const idCriador = localStorage.getItem("id"); // ID do usuário criador
+
+    const dadosGrupo = {
+      nome_grupo: nomeGrupo,
+      id_criador: idCriador,
+      max_integrantes: maxIntegrantes,
+    };
+
+    try {
+      setLoading(true);
+      const resposta = await GruposService.criarGrupo(dadosGrupo);
+      console.log("Grupo criado com sucesso:", resposta);
+      alert("Grupo criado com sucesso!");
+      handleClose(); // Fecha o modal após a criação do grupo
+    } catch (error) {
+      console.error("Erro ao criar grupo:", error);
+      alert("Erro ao criar o grupo. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -14,116 +43,56 @@ function CadastroGrupoModal({ show, handleClose }) {
       show={show}
       onHide={handleClose}
       centered
-      backdrop="static" // Impede que o modal seja fechado ao clicar fora
-      keyboard={false}  // Impede que o modal seja fechado ao pressionar "Esc"
+      backdrop="static"
+      keyboard={false}
     >
       <Modal.Header closeButton>
         <Modal.Title>Criação de Grupo</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="container">
-          <div className="row align-items-center justify-content-center">
-            {/* Coluna do Formulário */}
-            <div className="col-md-12 col-lg-8">
-              <div className="form-wrapper p-4 rounded shadow-sm">
-                {/* Botão para Upload de Foto do Grupo */}
-                <div className="mb-4 text-center">
-                  <label htmlFor="fotoGrupoInput" className="upload-button">
-                    {fotoGrupo ? (
-                      <img
-                        src={fotoGrupo}
-                        alt="Foto do Grupo"
-                        className="uploaded-image"
-                      />
-                    ) : (
-                      <span>Adicionar Foto do Grupo</span>
-                    )}
-                  </label>
-                  <input
-                    type="file"
-                    id="fotoGrupoInput"
-                    accept="image/*"
-                    onChange={handleFotoChange}
-                    style={{ display: "none" }}
-                  />
-                </div>
+        <form onSubmit={handleSubmit}>
+          {/* Nome do Grupo */}
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nome do Grupo"
+              value={nomeGrupo}
+              onChange={(e) => setNomeGrupo(e.target.value)}
+              required
+            />
+          </div>
 
-                {/* Formulário */}
-                <form>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Nome do Grupo"
-                    />
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Cidade"
-                      />
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Região"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row mb-3">
-                    <div className="col-md-6">
-                      <label>Somente Maiores?</label>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="somenteMaiores"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="somenteMaiores"
-                        >
-                          Sim
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <label>Grupo Privado?</label>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="grupoPrivado"
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="grupoPrivado"
-                        >
-                          Sim
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100"
-                  >
-                    Criar Grupo
-                  </button>
-                </form>
-              </div>
+          {/* Slider para Máximo de Integrantes */}
+          <div className="mb-3">
+            <label htmlFor="maxIntegrantesSlider">Máximo de Integrantes:</label>
+            <input
+              type="range"
+              id="maxIntegrantesSlider"
+              className="form-range"
+              min="2"
+              max="50"
+              step="1"
+              value={maxIntegrantes}
+              onChange={(e) => setMaxIntegrantes(Number(e.target.value))}
+            />
+            <div className="text-center">
+              <span>{maxIntegrantes} integrantes</span>
             </div>
           </div>
-        </div>
+
+          {/* Botão de Envio */}
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? "Criando..." : "Criar Grupo"}
+          </button>
+        </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose} disabled={loading}>
           Fechar
         </Button>
       </Modal.Footer>
