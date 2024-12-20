@@ -40,9 +40,56 @@
   font-size: 16px;
 }
 
+.rooms-page__list-container {
+  border: 2px solid #ccc; /* Adiciona uma borda ao redor */
+  border-radius: 12px; /* Arredonda os cantos */
+  padding: 20px; /* Espaçamento interno */
+  background-color: #f9f9f9; /* Fundo claro para destacar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  width: 90%;
+  margin: 0 auto; /* Centraliza o container */
+}
+
 .rooms-page__list {
   display: flex;
-  flex-direction: column; /* Alinha os cards em coluna */
+  flex-wrap: wrap; /* Permite múltiplas linhas de cards */
+  justify-content: center; /* Centraliza os cards */
   gap: 20px; /* Espaçamento entre os cards */
-  width: 80%; /* Mantém alinhado com as outras seções */
+  width: 100%;
+  padding: 10px;
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column; /* Alinha os atributos do card em coluna */
+  align-items: center; /* Centraliza os itens dentro do card */
+  justify-content: center; /* Centraliza verticalmente os itens */
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px; /* Define um tamanho fixo menor */
+  text-align: center; /* Centraliza o texto dos atributos */
+}
+
+.room-card h3 {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.room-card p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.room-card .badge {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  color: white;
+  background-color: #007bff;
 }

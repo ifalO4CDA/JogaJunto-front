@@ -8,18 +8,18 @@ const GruposInformacoes = () => {
   const navigate = useNavigate();
   const [grupo, setGrupo] = useState(null);
   const [membros, setMembros] = useState([]);
+  const [novoMembro, setNovoMembro] = useState(""); // Estado para o ID do novo membro
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Buscar informações do grupo e membros
   useEffect(() => {
     const fetchGrupoEParticipantes = async () => {
       try {
         const grupoResposta = await GruposService.getGrupoPorId(id);
         const membrosResposta = await GruposService.getMembrosDoGrupo(id);
 
-        setGrupo(grupoResposta.data);
-        setMembros(membrosResposta.data);
+        setGrupo(grupoResposta.data || {});
+        setMembros(membrosResposta.data || []);
         setError(null);
       } catch (erro) {
         console.error("Erro ao buscar informações do grupo:", erro);
@@ -32,30 +32,64 @@ const GruposInformacoes = () => {
     fetchGrupoEParticipantes();
   }, [id]);
 
-  if (loading) {
-    return <p>Carregando...</p>;
-  }
+  const handleAdicionarMembro = async () => {
+    try {
+      await GruposService.adicionarMembro({
+        id_grupo: id,
+        id_usuario: novoMembro,
+        acao: "adicionar",
+      });
+      const membrosAtualizados = await GruposService.getMembrosDoGrupo(id);
+      setMembros(membrosAtualizados.data);
+      setNovoMembro("");
+      alert("Usuário adicionado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao adicionar membro:", error);
+      alert("Erro ao adicionar membro ao grupo.");
+    }
+  };
 
-  if (error) {
-    return (
-      <div>
-        <p>{error}</p>
-        <button className="btn btn-secondary" onClick={() => navigate("/")}>
-          Voltar para a página inicial
-        </button>
-      </div>
-    );
-  }
+  if (loading) return <p>Carregando...</p>;
+  if (error) return (
+    <div>
+      <p>{error}</p>
+      <button className="btn btn-secondary" onClick={() => navigate("/")}>
+        Voltar para a página inicial
+      </button>
+    </div>
+  );
 
   return (
     <div className="container grupo-informacoes-container">
       <div className="grupo-header">
-        <h1>{grupo.nome_grupo}</h1>
-        <p>Criado em: {new Date(grupo.data_criacao).toLocaleDateString()}</p>
+        <h1>{grupo.nome_grupo || "Grupo sem nome"}</h1>
         <p>
-          Criador: {grupo.id_criador} - Integrantes:{" "}
-          {grupo.qtd_atual_integrantes} / {grupo.max_integrantes || "Sem limite"}
+          Criado em:{" "}
+          {grupo.data_criacao
+            ? new Date(grupo.data_criacao).toLocaleDateString()
+            : "Data desconhecida"}
         </p>
+        <p>
+          Criador: {grupo.id_criador || "Desconhecido"} - Integrantes:{" "}
+          {grupo.qtd_atual_integrantes || 0} / {grupo.max_integrantes || "Sem limite"}
+        </p>
+      </div>
+
+      {/* Adicionar Membro */}
+      <div className="adicionar-membro mb-4">
+        <h5>Adicionar Membro ao Grupo</h5>
+        <div className="d-flex">
+          <input
+            type="text"
+            className="form-control me-2"
+            placeholder="ID do Usuário"
+            value={novoMembro}
+            onChange={(e) => setNovoMembro(e.target.value)}
+          />
+          <button className="btn btn-primary" onClick={handleAdicionarMembro}>
+            Adicionar
+          </button>
+        </div>
       </div>
 
       <div className="membros-lista">
@@ -69,8 +103,8 @@ const GruposInformacoes = () => {
                 className="membro-avatar"
               />
               <div>
-                <p>{`${membro.nome} ${membro.sobrenome}`}</p>
-                <p>{membro.email}</p>
+                <p>{`${membro.nome || "Nome"} ${membro.sobrenome || ""}`}</p>
+                <p>{membro.email || "E-mail não disponível"}</p>
               </div>
             </div>
           ))

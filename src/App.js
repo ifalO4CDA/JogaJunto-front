@@ -17,7 +17,8 @@ import SalasTelas from './pages/salas/salasTelas';
 
 import Perfil from './pages/perfil/perfilPage';
 
-import ArenaReserva from './pages/arena/arenaReserva';
+import ReservaInformacoes from './pages/reserva/reservaInformacoes';
+import Reservas from './pages/reserva/reservaTela';
 
 import ArenaInformacoes from './pages/arena/arenaInformacoes';
 
@@ -25,7 +26,7 @@ import CadastroUsuario from './pages/cadastro/cadastroUsuario';
 import CadastroDadosComplementares from './pages/cadastro/cadastroDadosComplementares';
 import CadastroGrupo from './components/cadastroGrupoModal';
 import CadastroSalas from './components/cadastroSalaModal';
-import CadastroReserva from './pages/cadastro/cadastroReserva';
+import CadastroReserva from './pages/reserva/reservaTela';
 import CadastroConfirmacaoEmail from './pages/cadastro/cadastroConfirmacaoEmail';
 
 function App() {
@@ -55,8 +56,10 @@ function App() {
         <Route path="/salas/informacoes/:id" element={<SalasInformacoes />} />
         <Route path="/salas" element={<SalasTelas />} />
 
-        <Route path="/arena/reserva" element={<ArenaReserva />} />
         <Route path="/arena/:id" element={<ArenaInformacoes />} />
+
+        <Route path="/reserva/quadra/:id" element={<ReservaInformacoes />} />
+        <Route path="/reserva" element={<Reservas />} />
 
         <Route path="/perfil" element={<Perfil />} />
 

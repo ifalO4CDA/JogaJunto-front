@@ -1,162 +1,115 @@
 /* Container principal */
 .grupo-informacoes-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-top: 30px;
-  }
-  
-  /* Header do grupo (imagem + informações) */
-  .grupo-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 15px;
-    border-bottom: 2px solid #e0e0e0;
-  }
-  
-  .grupo-imagem {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #2fd151;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .grupo-info h2 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .grupo-info p {
-    color: #6c757d;
-    margin: 5px 0 0;
-  }
-  
-  /* Botões de ação */
-  .grupo-acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .grupo-acoes .btn {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    border-radius: 8px;
-  }
-  
-  .btn-editar {
-    background-color: #2fd151;
-    color: white;
-    border: none;
-  }
-  
-  .btn-excluir {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-  }
-  
-  .btn-convidar {
-    background-color: #007bff;
-    color: white;
-    border: none;
-  }
-  
-  .btn-sala {
-    background-color: #ffc107;
-    color: black;
-    border: none;
-  }
-  
-  .btn-editar:hover,
-  .btn-excluir:hover,
-  .btn-convidar:hover,
-  .btn-sala:hover {
-    opacity: 0.8;
-  }
-  
-  /* Participantes */
-.participantes-titulo {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .participantes-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espaçamento entre os itens */
-  }
-  
-  .participantes-item {
-    display: flex;
-    align-items: center; /* Alinha verticalmente os itens */
-    justify-content: space-between; /* Nome e botão ficam separados */
-    padding: 10px 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  .participante-info {
-    display: flex;
-    align-items: center; /* Alinha imagem e texto */
-    gap: 10px; /* Espaço entre imagem e nome */
-  }
-  
-  .participante-imagem {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* Imagem redonda */
-    object-fit: cover;
-    border: 2px solid #2fd151;
-  }
-  
-  .participante-nome {
-    font-size: 1rem;
-    color: #333;
-    font-weight: 500;
-    margin: 0;
-  }
-  
-  .btn-remover {
-    background-color: #dc3545;
-    max-width: 100px;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-    white-space: nowrap; /* Evita quebra de linha */
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
-  }
-  
-  .btn-remover:hover {
-    background-color: #c82333;
-    opacity: 0.9;
-  }
-  
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .grupo-header {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .grupo-acoes {
-      justify-content: center;
-    }
-  
-    .grupo-info h2 {
-      font-size: 1.5rem;
-    }
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Maior espaçamento entre seções */
+  margin: 30px auto;
+  max-width: 900px; /* Centraliza e limita a largura */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header do grupo (imagem + informações) */
+.grupo-header {
+  display: flex;
+  flex-direction: column; /* Alinha os elementos em coluna */
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border: 4px solid #6ee73a; /* Adiciona um quadrado ao redor */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.grupo-imagem {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2fd151;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grupo-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Espaçamento entre os cards */
+  justify-content: center; /* Centraliza os cards */
+  margin-top: 20px;
+}
+
+.grupo-info-card {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  text-align: center;
+}
+
+.grupo-info-card h4 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.grupo-info-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Membros */
+.membro-item {
+  display: flex;
+  flex-direction: column; /* Coloca imagem e texto em coluna */
+  align-items: center; /* Centraliza os itens */
+  gap: 10px;
+  padding: 20px;
+  border: 4px solid #d0f3c1; /* Adiciona um quadrado ao redor */
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  text-align: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.membro-item:hover {
+  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
+  background-color: #f8f9fa;
+}
+
+.membro-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #6ee73a;
+}
+
+.membro-nome {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+.membro-email {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .membro-item {
+  width: 100%;
+}
+}

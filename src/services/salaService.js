@@ -42,4 +42,16 @@ export const SalasService = {
       throw error;
     }
   },
+
+  adicionarMembro: async (idSala, idUsuario) => {
+    try {
+      const resposta = await api.post(`/rooms/${idSala}/members`, {
+        id_usuario: idUsuario, // Certifique-se de que o backend espera este campo exatamente assim
+      });
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao adicionar membro à sala:", error.response?.data || error);
+      throw error;
+    }
+  },
 };
