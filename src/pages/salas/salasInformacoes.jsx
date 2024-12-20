@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SalasService } from "../../services/salaService"; // Importa o service
+import { ReservaService } from "../../services/reservaService"; // Importa o serviço de reservas
 import "../../styles/pages/salas/salasInformacoes.css";
 
 function SalasInformacoes() {
@@ -8,19 +9,25 @@ function SalasInformacoes() {
   const navigate = useNavigate(); // Hook para navegação
   const [sala, setSala] = useState(null); // Dados da sala
   const [membros, setMembros] = useState([]); // Lista de membros
+  const [novoMembro, setNovoMembro] = useState(""); // Estado para o ID do novo membro
   const [loading, setLoading] = useState(true); // Controle de carregamento
   const [error, setError] = useState(null); // Controle de erros
+  const [reserva, setReserva] = useState(null); // Reserva associada à sala
 
   useEffect(() => {
     const fetchDadosSala = async () => {
       try {
-        // Requisição para obter os detalhes da sala
         const salaData = await SalasService.getSalaPorId(id);
         setSala(salaData.data);
 
-        // Requisição para obter a lista de membros
         const membrosData = await SalasService.getMembrosDaSala(id);
         setMembros(membrosData.data);
+
+        // Busca a reserva associada à sala (se existir)
+        if (salaData.data.reserva_ativa) {
+          const reservaData = await ReservaService.getReservasPorSala(id);
+          setReserva(reservaData.data);
+        }
 
         setLoading(false);
       } catch (error) {
@@ -33,17 +40,33 @@ function SalasInformacoes() {
     fetchDadosSala();
   }, [id]);
 
-  if (loading) {
-    return <p>Carregando...</p>;
-  }
+  const handleAdicionarMembro = async () => {
+    try {
+      if (!novoMembro) {
+        alert("Por favor, insira o ID do usuário.");
+        return;
+      }
 
-  if (error) {
-    return <p>Erro: {error}</p>;
-  }
+      const resposta = await SalasService.adicionarMembro(id, novoMembro);
+      console.log(resposta);
 
-  if (!sala) {
-    return <p>Erro ao carregar as informações da sala.</p>;
-  }
+      // Atualiza a lista de membros
+      const membrosAtualizados = await SalasService.getMembrosDaSala(id);
+      setMembros(membrosAtualizados.data);
+      setNovoMembro(""); // Limpa o campo
+    } catch (error) {
+      console.error("Erro ao adicionar membro:", error);
+      alert(error.response?.data?.message || "Erro ao adicionar membro. Verifique o ID.");
+    }
+  };
+
+  const handleCriarReserva = () => {
+    navigate(`/salas/${id}/criar-reserva`);
+  };
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro: {error}</p>;
+  if (!sala) return <p>Erro ao carregar as informações da sala.</p>;
 
   return (
     <div className="container mt-4 sala-informacoes-container">
@@ -59,19 +82,38 @@ function SalasInformacoes() {
         )}
       </div>
 
-      {/* Informações da Sala */}
-      <div className="sala-info mb-4">
-        <h5>Detalhes da Sala</h5>
-        <p>
-          <strong>Reserva Ativa:</strong> {sala.reserva_ativa ? "Sim" : "Não"}
-        </p>
-        <p>
-          <strong>Máximo de Integrantes:</strong> {sala.max_integrantes}
-        </p>
-        <p>
-          <strong>Quantidade Atual de Integrantes:</strong>{" "}
-          {sala.qtd_atual_integrantes}
-        </p>
+      {/* Reserva */}
+      <div className="reserva-secao mb-4">
+        <h5>Reserva</h5>
+        {sala.reserva_ativa ? (
+          <button
+            className="btn btn-info"
+            onClick={() => navigate(`/reservas/${reserva.id_reserva}`)}
+          >
+            Ver Detalhes da Reserva
+          </button>
+        ) : (
+          <button className="btn btn-success" onClick={handleCriarReserva}>
+            Criar Reserva
+          </button>
+        )}
+      </div>
+
+      {/* Adicionar Membro */}
+      <div className="adicionar-membro mb-4">
+        <h5>Adicionar Membro à Sala</h5>
+        <div className="d-flex">
+          <input
+            type="text"
+            className="form-control me-2"
+            placeholder="ID do Usuário"
+            value={novoMembro}
+            onChange={(e) => setNovoMembro(e.target.value)}
+          />
+          <button className="btn btn-primary" onClick={handleAdicionarMembro}>
+            Adicionar
+          </button>
+        </div>
       </div>
 
       {/* Membros da Sala */}
@@ -99,7 +141,7 @@ function SalasInformacoes() {
         <button className="btn btn-danger mx-2">Excluir Sala</button>
         <button
           className="btn btn-secondary mx-2"
-          onClick={() => navigate("/")} 
+          onClick={() => navigate("/")}
         >
           Voltar
         </button>

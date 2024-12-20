@@ -6,7 +6,6 @@ import logoJogaJunto from "../assets/logoJogaJunto.png";
 import imagemPerfil from "../assets/Perfil.png";
 import gruposImage from "../assets/gruposLogo.png";
 import salasImage from "../assets/salasLogo.png";
-import reservasImage from "../assets/reservasLogo.png";
 import "../styles/components/Header.css";
 
 const Header = ({ onLoginClick, buttonRef }) => {
@@ -45,17 +44,6 @@ const Header = ({ onLoginClick, buttonRef }) => {
             <Button className="btn-composto">
               <img src={salasImage} alt="Salas" className="btn-composto-img" />
               <span className="btn-composto-text">Salas</span>
-            </Button>
-          </Navbar.Brand>
-
-          <Navbar.Brand as={Link} to="/arena/reserva" className="mx-2">
-            <Button className="btn-composto">
-              <img
-                src={reservasImage}
-                alt="Reservas"
-                className="btn-composto-img"
-              />
-              <span className="btn-composto-text">Reservas</span>
             </Button>
           </Navbar.Brand>
         </Nav>

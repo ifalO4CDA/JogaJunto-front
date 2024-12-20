@@ -14,7 +14,7 @@ export const ArenaService = {
 
   getCourts: async () => {
     try {
-      const resposta = await api.get("/courts");
+      const resposta = await api.get("/courts"); 
       return resposta.data;
     } catch (error) {
       console.error("Erro ao buscar quadras:", error.response?.data || error);

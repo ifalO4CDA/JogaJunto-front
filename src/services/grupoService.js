@@ -8,9 +8,8 @@ export const GruposService = {
 
   getGruposPorUsuario: async (idUsuario) => {
     try {
-      // Enviando o ID do usuário como parâmetro na URL
       const resposta = await api.get(`/group/usuario/${idUsuario}`);
-      return resposta.data.data; // Retorna os grupos do usuário
+      return resposta.data.data;
     } catch (error) {
       console.error("Erro ao buscar grupos do usuário:", error.response?.data || error.message);
       throw error;
@@ -19,7 +18,7 @@ export const GruposService = {
 
   getGrupoPorId: async (id) => {
     try {
-      const resposta = await api.get(`/group/${id}`); // Rota para obter os dados do grupo
+      const resposta = await api.get(`/group/${id}`);
       return resposta.data;
     } catch (error) {
       console.error("Erro ao buscar grupo:", error.response?.data || error);
@@ -29,10 +28,20 @@ export const GruposService = {
 
   getMembrosDoGrupo: async (id) => {
     try {
-      const resposta = await api.get(`/group/grupoMembros/${id}`); // Rota para obter membros do grupo
+      const resposta = await api.get(`/group/grupoMembros/${id}`);
       return resposta.data;
     } catch (error) {
       console.error("Erro ao buscar membros do grupo:", error.response?.data || error);
+      throw error;
+    }
+  },
+
+  adicionarMembro: async (dados) => {
+    try {
+      const resposta = await api.post(`/group/membro`, dados);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao adicionar membro ao grupo:", error.response?.data || error);
       throw error;
     }
   },

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CadastroReserva = () => {
+const ReservaInformacoes = () => {
   return (
     <div>
       <h1>Cadastro Reserva</h1>
@@ -8,4 +8,4 @@ const CadastroReserva = () => {
   );
 };
 
-export default CadastroReserva;
+export default ReservaInformacoes;
