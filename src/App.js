@@ -16,8 +16,7 @@ import SalasTelas from './pages/salas/salasTelas';
 
 import Perfil from './pages/perfil/perfilPage';
 
-import ReservaInformacoes from './pages/reserva/reservaInformacoes';
-import Reservas from './pages/reserva/reservaTela';
+import ReservaInformacoes from './pages/salas/reservaInformacoes';
 
 import ArenaInformacoes from './pages/arena/arenaInformacoes';
 
@@ -25,7 +24,6 @@ import CadastroUsuario from './pages/cadastro/cadastroUsuario';
 import CadastroDadosComplementares from './pages/cadastro/cadastroDadosComplementares';
 import CadastroGrupo from './components/cadastroGrupoModal';
 import CadastroSalas from './components/cadastroSalaModal';
-import CadastroReserva from './pages/reserva/reservaTela';
 import CadastroConfirmacaoEmail from './pages/cadastro/cadastroConfirmacaoEmail';
 
 function App() {
@@ -52,21 +50,17 @@ function App() {
         <Route path="/grupos" element={<Grupos/>} />
 
         <Route path="/salas/informacoes/:id" element={<SalasInformacoes />} />
+        <Route path="/sala/reserva/:id" element={<ReservaInformacoes />} />
         <Route path="/salas" element={<SalasTelas />} />
 
         <Route path="/arena/:id" element={<ArenaInformacoes />} />
 
-        <Route path="/reserva/quadra/:id" element={<ReservaInformacoes />} />
-        <Route path="/reserva" element={<Reservas />} />
-
         <Route path="/perfil" element={<Perfil />} />
-
 
         <Route path="/cadastro/usuario" element={<CadastroUsuario />} />
         <Route path="/cadastro/dadoscomplementares" element={<CadastroDadosComplementares />} />
         <Route path="/cadastro/grupo" element={<CadastroGrupo />} />
         <Route path="/cadastro/salas" element={<CadastroSalas />} />
-        <Route path="/cadastro/reserva" element={<CadastroReserva />} />
         <Route path="/cadastro/grupo" element={<CadastroGrupo />} />
         <Route path="/cadastro/confirmacaoemail" element={<CadastroConfirmacaoEmail />} />
 

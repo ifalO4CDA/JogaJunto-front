@@ -93,3 +93,27 @@
   color: white;
   background-color: #007bff;
 }
+
+.filters {
+  display: flex;
+  gap: 20px; /* Espaçamento entre os selects */
+  margin-bottom: 20px; /* Espaçamento abaixo dos filtros */
+}
+
+.filter-select {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  color: #495057;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  width: 200px; /* Aumentado em 50px */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+

@@ -8,6 +8,7 @@ import { SalasService } from "../../services/salaService";
 import { GruposService } from "../../services/grupoService";
 import "../../styles/pages/perfil/perfilPage.css";
 
+
 const PerfilPage = () => {
   const [usuario, setUsuario] = useState(null); // Estado para armazenar os dados do usuário
   const [salas, setSalas] = useState([]); // Estado para armazenar as salas do usuário
