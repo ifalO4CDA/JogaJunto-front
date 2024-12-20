@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleLogoff } from "../utils/auth"; // Função de logoff manual
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "http://143.244.145.217:3030/api",
   headers: {
     "Content-Type": "application/json",
   },
