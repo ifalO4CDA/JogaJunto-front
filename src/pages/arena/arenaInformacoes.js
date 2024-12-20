@@ -6,6 +6,26 @@ import { ReservaService } from "../../services/reservaService";
 import { SalasService } from "../../services/salaService";
 import CadastroSalaModal from "../../components/cadastroSalaModal";
 
+const generateTimeOptions = (startTime) => {
+  const options = [];
+  const start = startTime ? parseInt(startTime.split(":")[0], 10) : 0;
+  const end = 24; // Horários até 23:30
+
+  for (let hour = start; hour < end; hour++) {
+    options.push(`${hour.toString().padStart(2, "0")}:00`);
+    options.push(`${hour.toString().padStart(2, "0")}:30`);
+  }
+
+  return startTime
+    ? options.filter(
+      (time) =>
+        new Date(`1970-01-01T${time}:00`) >
+        new Date(`1970-01-01T${startTime}:00`).getTime() + 60 * 60 * 999
+    )
+    : options;
+};
+
+
 const ArenaInformacoes = () => {
   const { id } = useParams();
   const location = useLocation(); // Para acessar o estado da navegação
@@ -24,7 +44,6 @@ const ArenaInformacoes = () => {
   const [errorFetchArena, setErrorFetchArena] = useState(false);
   const [errors, setErrors] = useState([]); // Lista de mensagens de erro
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchArenaData = async () => {
       try {
@@ -48,8 +67,27 @@ const ArenaInformacoes = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNovaReserva((prev) => ({ ...prev, [name]: value }));
+    const updatedReserva = { ...novaReserva, [name]: value };
+  
+    if (name === "horario_inicio" || name === "horario_fim") {
+      const { horario_inicio, horario_fim } = updatedReserva;
+  
+      if (horario_inicio && horario_fim) {
+        const inicio = new Date(`1970-01-01T${horario_inicio}:00`);
+        const fim = new Date(`1970-01-01T${horario_fim}:00`);
+        const hoursDiff = (fim - inicio) / (1000 * 60 * 60);
+  
+        if (hoursDiff > 0) {
+          updatedReserva.valor_total = parseFloat(dataToDisplay.preco_hora) * hoursDiff;
+        } else {
+          updatedReserva.valor_total = 0; // Evita valores negativos
+        }
+      }
+    }
+  
+    setNovaReserva(updatedReserva);
   };
+  
 
   const handleCriarReserva = async (e) => {
     e.preventDefault();
@@ -107,12 +145,12 @@ const ArenaInformacoes = () => {
   const dataToDisplay = errorFetchArena || !arenaData
     ? placeholderData
     : {
-        ...arenaData,
-        esportes: arenaData.esportes || [],
-        comodidades: arenaData.comodidades || [],
-        endereco: arenaData.endereco || placeholderData.endereco,
-        proprietario: arenaData.proprietario || placeholderData.proprietario,
-      };
+      ...arenaData,
+      esportes: arenaData.esportes || [],
+      comodidades: arenaData.comodidades || [],
+      endereco: arenaData.endereco || placeholderData.endereco,
+      proprietario: arenaData.proprietario || placeholderData.proprietario,
+    };
 
   return (
     <div className="container mt-4">
@@ -182,6 +220,7 @@ const ArenaInformacoes = () => {
           </div>
         </div>
 
+
         {/* Formulário de Reserva */}
         <div className="col-md-4">
           <div className="card p-4 shadow-sm">
@@ -200,33 +239,46 @@ const ArenaInformacoes = () => {
                   onChange={handleInputChange}
                   className="form-control"
                   required
+                  min={new Date().toISOString().split("T")[0]} // Limita a seleção a partir de hoje
                 />
               </div>
               <div className="mb-3">
                 <label htmlFor="start-time" className="form-label">
                   Começa
                 </label>
-                <input
-                  type="time"
+                <select
                   name="horario_inicio"
                   value={novaReserva.horario_inicio}
                   onChange={handleInputChange}
-                  className="form-control"
+                  className="form-select"
                   required
-                />
+                >
+                  <option value="">Selecione</option>
+                  {generateTimeOptions().map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-3">
                 <label htmlFor="end-time" className="form-label">
                   Termina
                 </label>
-                <input
-                  type="time"
+                <select
                   name="horario_fim"
                   value={novaReserva.horario_fim}
                   onChange={handleInputChange}
-                  className="form-control"
+                  className="form-select"
                   required
-                />
+                >
+                  <option value="">Selecione</option>
+                  {generateTimeOptions(novaReserva.horario_inicio).map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="mb-3">
                 <label htmlFor="valor_total" className="form-label">
@@ -236,40 +288,9 @@ const ArenaInformacoes = () => {
                   type="number"
                   name="valor_total"
                   value={novaReserva.valor_total}
-                  onChange={handleInputChange}
                   className="form-control"
-                  required
+                  readOnly
                 />
-              </div>
-              <div className="mb-3 d-flex align-items-center">
-                <div className="flex-grow-1">
-                  <label htmlFor="id_sala" className="form-label">
-                    Selecionar Sala
-                  </label>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <select
-                      name="id_sala"
-                      value={novaReserva.id_sala}
-                      onChange={handleInputChange}
-                      className="form-select"
-                      required
-                    >
-                      <option value="">Selecione uma sala</option>
-                      {salasSemReserva.map((sala) => (
-                        <option key={sala.id_sala} value={sala.id_sala}>
-                          Sala #{sala.id_sala}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="button"
-                      className="btn btn-secondary ms-2"
-                      onClick={handleCriarNovaSala}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
               </div>
               <button type="submit" className="btn btn-primary w-100">
                 Criar Reserva
@@ -286,6 +307,9 @@ const ArenaInformacoes = () => {
             </form>
           </div>
         </div>
+
+
+
       </div>
 
       {showModalCriarSala && (

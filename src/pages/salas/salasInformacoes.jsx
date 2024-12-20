@@ -131,7 +131,7 @@ function SalasInformacoes() {
         ) : reserva ? (
           <div
             className="card p-3 mb-3 shadow-sm reserva-card"
-            onClick={() => navigate(`/reservas/${reserva.id_reserva}`)}
+            // onClick={() => navigate(`/reservas/${reserva.id_reserva}`)}
             style={{ cursor: "pointer" }}
           >
             <p>
