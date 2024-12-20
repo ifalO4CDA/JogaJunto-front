@@ -9,7 +9,6 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
-    "dotenv": "^16.4.5",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "pg": "^8.13.1",
@@ -23,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --host 0.0.0.0 --allowed-hosts joga_junto_bk",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -57,6 +56,5 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  },
-  "proxy": "http://localhost:3030"
+  }
 }

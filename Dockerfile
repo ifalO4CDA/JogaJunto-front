@@ -1,21 +1,20 @@
-# Use uma imagem oficial do Node.js como base para a etapa de build
+# Etapa de build
 FROM node:20-alpine AS build
 
-# Defina o diretório de trabalho dentro do container
 WORKDIR /frontend
 
-# Copie o arquivo package.json e package-lock.json para o diretório de trabalho
 COPY package.json package-lock.json ./
-
-# Instale as dependências do projeto
 RUN npm install
 
-# Copie o restante dos arquivos para o container
 COPY . .
 
+RUN npm run build
 
-EXPOSE 3000
+# Etapa de produção com Nginx
+FROM nginx:alpine
 
+COPY --from=build /frontend/build /usr/share/nginx/html
 
-#quero iniciar o app com o comando npm start
-CMD ["npm", "start"]
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
