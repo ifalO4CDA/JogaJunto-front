@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ArenaService } from "../../services/arenaService";
 import { ReservaService } from "../../services/reservaService";
 import { SalasService } from "../../services/salaService";
 import CadastroSalaModal from "../../components/cadastroSalaModal";
-
 const generateTimeOptions = (startTime) => {
   const options = [];
   const start = startTime ? parseInt(startTime.split(":")[0], 10) : 0;
@@ -27,6 +26,8 @@ const generateTimeOptions = (startTime) => {
 
 
 const ArenaInformacoes = () => {
+
+  const navigate = useNavigate(); // Hook para navegação
   const { id } = useParams();
   const location = useLocation(); // Para acessar o estado da navegação
   const idSalaInicial = location.state?.idSala || ""; // Pega o id_sala do estado ou usa vazio
@@ -68,15 +69,15 @@ const ArenaInformacoes = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const updatedReserva = { ...novaReserva, [name]: value };
-  
+
     if (name === "horario_inicio" || name === "horario_fim") {
       const { horario_inicio, horario_fim } = updatedReserva;
-  
+
       if (horario_inicio && horario_fim) {
         const inicio = new Date(`1970-01-01T${horario_inicio}:00`);
         const fim = new Date(`1970-01-01T${horario_fim}:00`);
         const hoursDiff = (fim - inicio) / (1000 * 60 * 60);
-  
+
         if (hoursDiff > 0) {
           updatedReserva.valor_total = parseFloat(dataToDisplay.preco_hora) * hoursDiff;
         } else {
@@ -84,10 +85,10 @@ const ArenaInformacoes = () => {
         }
       }
     }
-  
+
     setNovaReserva(updatedReserva);
   };
-  
+
 
   const handleCriarReserva = async (e) => {
     e.preventDefault();
@@ -106,6 +107,9 @@ const ArenaInformacoes = () => {
     } catch (error) {
       const apiErrors = error.response?.data?.errors || [];
       setErrors(apiErrors.map((err) => err.msg)); // Extrai mensagens de erro do retorno da API
+    } finally {
+      //redireciona para a página de salas
+      navigate(`/salas/informacoes/${novaReserva.id_sala}`)
     }
   };
 
@@ -291,6 +295,37 @@ const ArenaInformacoes = () => {
                   className="form-control"
                   readOnly
                 />
+              </div>
+
+              <div className="mb-3 d-flex align-items-center">
+                <div className="flex-grow-1">
+                  <label htmlFor="id_sala" className="form-label">
+                    Selecionar Sala
+                  </label>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <select
+                      name="id_sala"
+                      value={novaReserva.id_sala}
+                      onChange={handleInputChange}
+                      className="form-select"
+                      required
+                    >
+                      <option value="">Selecione uma sala</option>
+                      {salasSemReserva.map((sala) => (
+                        <option key={sala.id_sala} value={sala.id_sala}>
+                          Sala #{sala.id_sala}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      className="btn btn-secondary ms-2"
+                      onClick={handleCriarNovaSala}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
               <button type="submit" className="btn btn-primary w-100">
                 Criar Reserva
