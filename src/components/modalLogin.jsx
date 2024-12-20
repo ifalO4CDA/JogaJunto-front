@@ -8,6 +8,7 @@ function ModalLogin({ onClose }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [erro, setErro] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,13 +30,25 @@ function ModalLogin({ onClose }) {
       localStorage.setItem("numero_celular", dadosUsuario?.numero_celular);
       localStorage.setItem("foto_perfil", dadosUsuario?.foto_perfil);
       localStorage.setItem("endereco", JSON.stringify(dadosUsuario?.endereco));
-
-      alert("Login realizado com sucesso!");
       onClose(); // Fecha o modal
       window.location.href = "/"; // Redireciona para a página principal
     } catch (error) {
-      console.error("Erro no login:", error.response?.data || error.message);
-      alert("Erro ao realizar login: " + (error.response?.data?.mensagem || "Erro desconhecido"));
+      let mensagemErro = "Ocorreu um erro no servidor.";
+
+      if (error.response) {
+        switch (error.response.status) {
+          case 401 || 403 :
+            mensagemErro = "Usuário ou Senha incorreta.";
+            break;
+          case 404:
+            mensagemErro = "Usuário não cadastrado, por favor realize o cadastro.";
+            break;
+          default:
+            mensagemErro = error.response?.data?.erro || mensagemErro;
+        }
+      }
+
+      setErro(mensagemErro); // Define a mensagem no estado
     }
   };
 
@@ -77,6 +90,8 @@ function ModalLogin({ onClose }) {
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
+            {/* Mensagem de Erro */}
+            {erro && <div className="alert alert-danger">{erro}</div>}
             {/* Botão de Continuar */}
             <button type="submit" className="btn btn-primary w-100 btn-primary-custom">
               Continuar

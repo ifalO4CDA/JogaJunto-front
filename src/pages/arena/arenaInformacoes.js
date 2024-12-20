@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ArenaService } from "../../services/arenaService";
 
 const ArenaInformacoes = () => {
   const { id } = useParams(); // Obtém o ID da URL
@@ -14,24 +15,22 @@ const ArenaInformacoes = () => {
   const [aceitouTermos, setAceitouTermos] = useState(false);
   const [aceitouRegras, setAceitouRegras] = useState(false);
 
+  // faz uma requisicao para a api para obter os dados da arena
   useEffect(() => {
-    setLoading(true);
-    fetch(`http://sua-api.com/arenas/${id}`)
-      .then((response) => {
-        if (!response.ok) throw new Error("Erro ao buscar os dados da arena");
-        return response.json();
-      })
-      .then((data) => {
-        setArenaData(data);
-        setError(false);
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar a arena:", err);
-        setError(true);
-        setArenaData(undefined);
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+    const fetchArenaData = async () => {
+      try {
+        const response = await ArenaService.getArenaById(id);
+        setArenaData(response);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erro ao buscar informações da arena:", error);
+        setError(error.message);
+        setLoading(false);
+      }
+      };
+      fetchArenaData();
+    }, [id]);
+
 
   const placeholderData = {
     nome: "Arena Não Encontrada",
