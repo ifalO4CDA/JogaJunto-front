@@ -82,9 +82,9 @@ const PerfilPage = () => {
           {/* Cabeçalho do Perfil */}
           <div className="perfil-header">
             <img
-              src={usuario.foto_perfil || "https://via.placeholder.com/150"}
               src = {perfilFundo}
               className="perfil-foto"
+              alt="Foto de Perfil"
             />
 
             <div className="perfil-dados">
