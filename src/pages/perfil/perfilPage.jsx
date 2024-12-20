@@ -7,6 +7,7 @@ import { SalasService } from "../../services/salaService";
 import { GruposService } from "../../services/grupoService";
 import "../../styles/pages/perfil/perfilPage.css";
 
+
 const PerfilPage = () => {
   const [usuario, setUsuario] = useState(null); // Estado para armazenar os dados do usuário
   const [salas, setSalas] = useState([]); // Estado para armazenar as salas do usuário
@@ -62,10 +63,15 @@ const PerfilPage = () => {
     navigate("/cadastro/dadosComplementares");
   };
 
-  const handleLogoff = () => {
+  const handleLogout = () => {
+    // Limpa o localStorage
     localStorage.clear();
-    alert("Você foi desconectado.");
-    navigate("/login");
+
+    // Redireciona o usuário para a página inicial
+    navigate("/", { replace: true });
+
+    // Recarrega a página para garantir a limpeza do estado global
+    window.location.reload();
   };
 
   return (
@@ -105,7 +111,7 @@ const PerfilPage = () => {
 
               <button
                 className="btn btn-danger btn-logoff"
-                onClick={handleLogoff}
+                onClick={handleLogout}
               >
                 Sair
               </button>

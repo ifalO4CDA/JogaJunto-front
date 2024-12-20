@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SalasService } from "../../services/salaService"; // Importa o service
+import { ReservaService } from "../../services/reservaService"; // Importa o serviço de reservas
 import "../../styles/pages/salas/salasInformacoes.css";
 
 function SalasInformacoes() {
@@ -11,6 +12,7 @@ function SalasInformacoes() {
   const [novoMembro, setNovoMembro] = useState(""); // Estado para o ID do novo membro
   const [loading, setLoading] = useState(true); // Controle de carregamento
   const [error, setError] = useState(null); // Controle de erros
+  const [reserva, setReserva] = useState(null); // Reserva associada à sala
 
   useEffect(() => {
     const fetchDadosSala = async () => {
@@ -20,6 +22,12 @@ function SalasInformacoes() {
 
         const membrosData = await SalasService.getMembrosDaSala(id);
         setMembros(membrosData.data);
+
+        // Busca a reserva associada à sala (se existir)
+        if (salaData.data.reserva_ativa) {
+          const reservaData = await ReservaService.getReservasPorSala(id);
+          setReserva(reservaData.data);
+        }
 
         setLoading(false);
       } catch (error) {
@@ -38,10 +46,10 @@ function SalasInformacoes() {
         alert("Por favor, insira o ID do usuário.");
         return;
       }
-  
+
       const resposta = await SalasService.adicionarMembro(id, novoMembro);
       console.log(resposta);
-  
+
       // Atualiza a lista de membros
       const membrosAtualizados = await SalasService.getMembrosDaSala(id);
       setMembros(membrosAtualizados.data);
@@ -51,7 +59,10 @@ function SalasInformacoes() {
       alert(error.response?.data?.message || "Erro ao adicionar membro. Verifique o ID.");
     }
   };
-  
+
+  const handleCriarReserva = () => {
+    navigate(`/salas/${id}/criar-reserva`);
+  };
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error}</p>;
@@ -68,6 +79,23 @@ function SalasInformacoes() {
           <p>
             Criador: {sala.criador.nome} - {sala.criador.email}
           </p>
+        )}
+      </div>
+
+      {/* Reserva */}
+      <div className="reserva-secao mb-4">
+        <h5>Reserva</h5>
+        {sala.reserva_ativa ? (
+          <button
+            className="btn btn-info"
+            onClick={() => navigate(`/reservas/${reserva.id_reserva}`)}
+          >
+            Ver Detalhes da Reserva
+          </button>
+        ) : (
+          <button className="btn btn-success" onClick={handleCriarReserva}>
+            Criar Reserva
+          </button>
         )}
       </div>
 
