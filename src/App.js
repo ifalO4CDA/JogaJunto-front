@@ -7,7 +7,6 @@ import Header from './components/header';
 import ModalLogin from './components/modalLogin';
 
 import HomePage from './pages/home/homePage';
-import Explorar from './pages/home/explorar';
 
 import GruposInformacoes from './pages/grupos/gruposInformacoes';
 import Grupos from './pages/grupos/gruposTelas';
@@ -48,7 +47,6 @@ function App() {
       
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/explorar" element={<Explorar />} />
 
         <Route path="/grupos/informacoes/:id" element={<GruposInformacoes />} />
         <Route path="/grupos" element={<Grupos/>} />
