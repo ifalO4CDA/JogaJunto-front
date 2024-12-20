@@ -94,23 +94,25 @@ const GruposInformacoes = () => {
 
       <div className="membros-lista">
         <h3>Membros do Grupo</h3>
-        {membros.length > 0 ? (
-          membros.map((membro) => (
-            <div key={membro.id_usuario} className="membro-item">
-              <img
-                src={membro.foto_perfil || "https://via.placeholder.com/150"}
-                alt={membro.nome}
-                className="membro-avatar"
-              />
-              <div>
-                <p>{`${membro.nome || "Nome"} ${membro.sobrenome || ""}`}</p>
-                <p>{membro.email || "E-mail não disponível"}</p>
+        <div className="membros-view"> 
+          {membros.length > 0 ? (
+            membros.map((membro) => (
+              <div key={membro.id_usuario} className="membro-item">
+                <img
+                  src={membro.foto_perfil || "https://via.placeholder.com/150"}
+                  alt={membro.nome}
+                  className="membro-avatar"
+                />
+                <div>
+                  <p>{`${membro.nome || "Nome"} ${membro.sobrenome || ""}`}</p>
+                  <p>{membro.email || "E-mail não disponível"}</p>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p>Nenhum membro encontrado.</p>
-        )}
+            ))  
+          ) : (
+            <p>Nenhum membro encontrado.</p>
+          )}
+        </div>
       </div>
 
       <button className="btn btn-secondary" onClick={() => navigate("/")}>

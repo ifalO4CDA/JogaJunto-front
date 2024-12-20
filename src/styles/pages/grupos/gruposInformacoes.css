@@ -2,107 +2,137 @@
 .grupo-informacoes-container {
   display: flex;
   flex-direction: column;
-  gap: 30px; /* Maior espaçamento entre seções */
-  margin: 30px auto;
-  max-width: 900px; /* Centraliza e limita a largura */
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 20px; /* Menor espaçamento entre seções */
+  margin: 20px auto;
+  max-width: 800px; /* Largura mais ajustada */
+  padding: 25px;
+  background-color: #f0f4f8; /* Fundo suave e claro */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Header do grupo (imagem + informações) */
 .grupo-header {
   display: flex;
-  flex-direction: column; /* Alinha os elementos em coluna */
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   padding: 20px;
-  border: 4px solid #6ee73a; /* Adiciona um quadrado ao redor */
+  border: 3px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .grupo-imagem {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2fd151;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Informação do grupo */
 .grupo-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* Espaçamento entre os cards */
-  justify-content: center; /* Centraliza os cards */
+  gap: 20px;
+  justify-content: center;
   margin-top: 20px;
 }
 
 .grupo-info-card {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 200px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 220px;
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grupo-info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .grupo-info-card h4 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: #333;
 }
 
 .grupo-info-card p {
   margin: 0;
   font-size: 1rem;
-  color: #555;
+  color: #666;
 }
 
 /* Membros */
-.membro-item {
+/* Container principal da lista de membros */
+.membros-lista {
   display: flex;
   flex-direction: column; /* Coloca imagem e texto em coluna */
-  align-items: center; /* Centraliza os itens */
+  flex-wrap: wrap; /* Permite quebrar linha se não couber na mesma */
+  gap: 40px; /* Espaçamento entre os membros */
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  margin-top: 10px;
+}
+
+.membros-view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+/* Card individual de cada membro */
+.membro-item {
+  display: flex;
+  flex-direction: column; /* Alinha conteúdo verticalmente */
+  align-items: center; /* Centraliza conteúdo horizontalmente */
   gap: 10px;
-  padding: 20px;
-  border: 4px solid #d0f3c1; /* Adiciona um quadrado ao redor */
-  border-radius: 10px;
-  background-color: #fff;
+  padding: 15px;
+  border: 2px solid #d0f3c1;
+  border-radius: 8px;
+  background-color: #ffffff;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  width: 150px;
-  text-align: center;
+  width: 200px; /* Largura fixa para os cartões */
+  text-align: center; /* Centraliza o texto */
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .membro-item:hover {
-  transform: translateY(-2px); /* Efeito de elevação ao passar o mouse */
-  background-color: #f8f9fa;
+  transform: translateY(-3px); /* Efeito de elevação no hover */
+  background-color: #f4faf4;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Avatar do membro */
 .membro-avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #6ee73a;
+  border: 2px;
 }
 
+/* Nome do membro */
 .membro-nome {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
   color: #333;
-  font-weight: 600;
   margin: 0;
 }
 
+/* E-mail do membro */
 .membro-email {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #555;
   margin: 0;
 }
@@ -110,6 +140,6 @@
 /* Responsividade */
 @media (max-width: 768px) {
   .membro-item {
-  width: 100%;
-}
+    width: 100%; /* Os cartões ocupam toda a largura da linha em telas menores */
+  }
 }

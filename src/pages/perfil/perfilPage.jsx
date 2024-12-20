@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import EditarPerfilModal from "../../components/editarPerfilModal";
 import CardSala from "../../components/cardSala"; // Importa o componente de CardSala
 import CardGrupo from "../../components/cardGrupo"; // Importa o componente de CardGrupo
+import perfilFundo from "../../assets/perfilFundo.png"
 import { SalasService } from "../../services/salaService";
 import { GruposService } from "../../services/grupoService";
 import "../../styles/pages/perfil/perfilPage.css";
@@ -62,10 +63,15 @@ const PerfilPage = () => {
     navigate("/cadastro/dadosComplementares");
   };
 
-  const handleLogoff = () => {
+  const handleLogout = () => {
+    // Limpa o localStorage
     localStorage.clear();
-    alert("Você foi desconectado.");
-    navigate("/login");
+
+    // Redireciona o usuário para a página inicial
+    navigate("/", { replace: true });
+
+    // Recarrega a página para garantir a limpeza do estado global
+    window.location.reload();
   };
 
   return (
@@ -76,24 +82,20 @@ const PerfilPage = () => {
           <div className="perfil-header">
             <img
               src={usuario.foto_perfil || "https://via.placeholder.com/150"}
-              alt={usuario.nome}
+              src = {perfilFundo}
               className="perfil-foto"
             />
 
             <div className="perfil-dados">
-              <h2 className="perfil-nome">
-                {usuario.nome} {usuario.sobrenome}
-                <button
-                  className="btn btn-primary btn-editar"
-                  onClick={handleEditarPerfil}
-                >
-                  Editar Perfil
-                </button>
-              </h2>
-
+              <h2 className="perfil-nome">{usuario.nome} {usuario.sobrenome}</h2>
               <p className="perfil-email">{usuario.email}</p>
               <p className="perfil-id">ID do Usuário: {usuario.id}</p>
-
+              <button
+                className="btn btn-primary btn-editar"
+                onClick={handleEditarPerfil}
+              >
+                Editar Perfil
+              </button>
               {usuario.endereco === "undefined" && (
                 <button
                   className="btn btn-complementar"
@@ -102,10 +104,9 @@ const PerfilPage = () => {
                   Complementar Cadastro
                 </button>
               )}
-
               <button
                 className="btn btn-danger btn-logoff"
-                onClick={handleLogoff}
+                onClick={handleLogout}
               >
                 Sair
               </button>

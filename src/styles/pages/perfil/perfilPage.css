@@ -3,16 +3,19 @@
   display: flex;
   flex-direction: column; /* Empilha as seções verticalmente */
   align-items: center; /* Centraliza todo o conteúdo horizontalmente */
-  gap: 20px; /* Espaçamento entre as seções */
+  gap: 30px; /* Espaçamento entre as seções */
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
 /* Cabeçalho do Perfil */
 .perfil-header {
   display: flex;
-  align-items: center; /* Alinha a imagem, nome e botões */
-  gap: 20px; /* Espaçamento entre os elementos */
-  border-bottom: 2px solid #e0e0e0; /* Linha separadora */
+  flex-direction: column;
+  align-items: center; /* Centraliza os elementos */
+  gap: 15px;
   padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
 }
 
 .perfil-foto {
@@ -20,86 +23,140 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2fd151;
-}
-
-.perfil-dados {
-  display: flex;
-  flex-direction: column; /* Nome e botões empilhados */
-  align-items: flex-start; /* Alinha à esquerda */
-  gap: 10px;
+  border: 3px solid #6ee73a;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .perfil-nome {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  color: #333;
+  text-align: center;
   margin: 0;
+}
+
+.perfil-email,
+.perfil-id {
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+  margin: 5px 0;
+}
+
+/* Botões de Ação */
+.perfil-dados {
   display: flex;
-  align-items: center; /* Alinha nome e botão na mesma linha */
-  gap: 10px; /* Espaçamento entre nome e botão */
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .btn-editar {
-  font-size: 0.875rem;
-  padding: 5px 10px; /* Botão compacto */
+  font-size: 1rem;
+  padding: 12px 20px;
+  background-color: #63ca47;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 220px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-editar:hover {
+  background-color: #63ca47;
+  transform: scale(1.05);
 }
 
 .btn-complementar {
-  width: 200px; /* Define largura fixa */
-  padding: 10px 15px;
   font-size: 1rem;
-  background-color: #ffc107;
+  padding: 12px 20px;
+  background-color: #63ca47;
+  color: white;
   border: none;
-  color: black;
   border-radius: 8px;
+  width: 220px;
   text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-complementar:hover {
-  background-color: #e0a800;
+  background-color: #63ca47;
+  transform: scale(1.05);
+}
+/* Botão de Logout */
+.btn-logoff {
+  font-size: 1rem; /* Tamanho da fonte */
+  padding: 10px 20px; /* Espaçamento interno */
+  background-color: white; /* Cor de fundo vermelha */
+  color: red; /* Cor do texto */
+  border: none; /* Remove bordas */
+  border-radius: 8px; /* Bordas arredondadas */
+  text-align: center; /* Centraliza o texto */
+  cursor: pointer; /* Mostra o cursor de clique */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efeito suave para hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para profundidade */
 }
 
+.btn-logoff:hover {
+  background-color: #c82333; /* Cor mais escura no hover */
+  transform: scale(1.05); /* Leve aumento no hover */
+}
+
+.btn-logoff:active {
+  background-color: #bd2130; /* Cor mais escura no clique */
+  transform: scale(0.95); /* Leve redução no clique */
+}
+
+.btn-logoff:focus {
+  outline: none; /* Remove o outline padrão */
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.5); /* Adiciona um contorno ao focar */
+}
 /* Seções de Salas, Grupos e Reservas */
 .perfil-secoes {
   display: flex;
-  flex-direction: column; /* Empilha as seções verticalmente */
-  align-items: center; /* Centraliza as seções */
+  flex-direction: column;
+  align-items: center;
   gap: 30px;
-  width: 100%; /* Garante que a largura das seções seja consistente */
+  width: 100%;
 }
 
-/* Título de cada seção */
 .perfil-secoes h3 {
   margin-bottom: 15px;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: #333;
   font-weight: bold;
-  text-align: center; /* Centraliza os títulos */
+  text-align: center;
 }
 
 /* Contêiner de Cards */
 .cards-container {
   display: flex;
-  flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
-  gap: 20px; /* Espaçamento entre os cards */
-  justify-content: center; /* Centraliza os cards na linha */
-  width: 100%; /* Define largura total */
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 
 .cards-container > div {
-  flex: 1 1 calc(25% - 20px); /* Cards ocupam 25% da largura menos o gap */
-  max-width: calc(25% - 20px); /* Garante que o máximo seja 25% */
-  min-width: 200px; /* Largura mínima dos cards */
+  flex: 1 1 calc(25% - 20px);
+  max-width: calc(25% - 20px);
+  min-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 15px;
 }
 
 /* Cards menores no mobile */
 @media (max-width: 768px) {
   .cards-container > div {
-    flex: 1 1 calc(50% - 20px); /* Cards ocupam 50% no mobile */
+    flex: 1 1 calc(50% - 20px);
     max-width: calc(50% - 20px);
   }
 
-  .btn-complementar {
-    width: 100%; /* Botão ocupa toda a largura no mobile */
+  .btn-complementar,
+  .btn-editar {
+    width: 100%;
   }
 }
