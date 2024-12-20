@@ -1,0 +1,74 @@
+/* Container Principal */
+.quadras-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    min-height: 100vh;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título em Destaque */
+  .quadras-title-box {
+    width: 100%;
+    max-width: 800px;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    border: 2px solid #2fd151;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quadras-title-box h2 {
+    margin: 0;
+    color: #2fd151;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Lista de Quadras */
+  .quadras-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  /* Card de Quadra */
+  .quadra-card-wrapper {
+    flex: 1 1 calc(33.333% - 1.5rem);
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  .quadra-card-wrapper .card-quadra {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .quadra-card-wrapper .card-quadra:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .quadra-card-wrapper {
+      flex: 1 1 calc(50% - 1.5rem);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .quadra-card-wrapper {
+      flex: 1 1 100%;
+    }
+  
+    .quadras-title-box {
+      padding: 1rem;
+    }
+  }
+  

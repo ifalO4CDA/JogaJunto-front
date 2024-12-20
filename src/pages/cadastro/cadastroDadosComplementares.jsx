@@ -22,6 +22,8 @@ function CadastroComplementar() {
   });
 
   const [termosAceitos, setTermosAceitos] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState(null); // Para exibir erros
+  const [mensagemSucesso, setMensagemSucesso] = useState(null); // Para exibir sucesso
 
   const handleFotoChange = (e) => {
     setDadosPessoais((prevState) => ({
@@ -32,9 +34,11 @@ function CadastroComplementar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMensagemErro(null); // Limpa mensagens anteriores
+    setMensagemSucesso(null);
 
     if (!termosAceitos) {
-      alert("Você precisa aceitar os Termos de Serviço.");
+      setMensagemErro("Você precisa aceitar os Termos de Serviço.");
       return;
     }
 
@@ -59,31 +63,29 @@ function CadastroComplementar() {
       id_usuario: idUsuario,
     };
 
-    console.log("Dados Pessoais Enviados:", {
-      id_usuario: idUsuario,
-      data_nascimento: dadosPessoais.dataNascimento,
-      cpf: dadosPessoais.cpf,
-      documento_oficial: dadosPessoais.fotoDocumento?.name,
-    });
-
-    console.log("Dados de Endereço Enviados:", dadosEndereco);
-
     try {
       // Requisição para informações complementares
-      const respostaPessoal = await UsuariosService.criarInformacoes(dadosComplementares);
-      console.log("Resposta da API para informações complementares:", respostaPessoal);
+      await UsuariosService.criarInformacoes(dadosComplementares);
 
       // Requisição para criar endereço
-      const respostaEndereco = await EnderecoService.criarEndereco(dadosEndereco);
-      console.log("Resposta da API para endereço:", respostaEndereco);
+      await EnderecoService.criarEndereco(dadosEndereco);
 
-      alert("Cadastro complementar concluído com sucesso!");
-      window.location.href = "/perfil"; // Redireciona para o perfil
+      setMensagemSucesso("Cadastro complementar concluído com sucesso!");
+      setTimeout(() => {
+        window.location.href = "/perfil"; // Redireciona para o perfil
+      }, 2000);
     } catch (error) {
-      console.error("Erro ao concluir o cadastro complementar:", error.response?.data || error);
-      alert("Erro ao concluir o cadastro. Verifique os dados e tente novamente.");
+      const erros = error.response?.data?.errors || [error.response?.data?.message] || ["Erro desconhecido"];
+      // Garante que erros sejam transformados em strings
+      const mensagemErro = Array.isArray(erros)
+        ? erros.map((err) => (typeof err === "string" ? err : err.msg || JSON.stringify(err))).join(" ")
+        : typeof erros === "string"
+          ? erros
+          : "Erro desconhecido.";
+      setMensagemErro(mensagemErro);
     }
   };
+
 
   return (
     <div className="container mt-5">
@@ -238,38 +240,42 @@ function CadastroComplementar() {
                   />
                 </div>
               </div>
+              <div className="row">
+                <div className="col-md-4 mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Bairro"
+                    value={endereco.bairro}
+                    onChange={(e) =>
+                      setEndereco((prev) => ({
+                        ...prev,
+                        bairro: e.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
 
-              <div className="col-md-4 mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Bairro"
-                  value={endereco.bairro}
-                  onChange={(e) =>
-                    setEndereco((prev) => ({
-                      ...prev,
-                      bairro: e.target.value,
-                    }))
-                  }
-                  required
-                />
+                <div className="col-md-4 mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Complemento"
+                    value={endereco.complemento}
+                    onChange={(e) =>
+                      setEndereco((prev) => ({
+                        ...prev,
+                        complemento: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
               </div>
 
-              <div className="col-md-4 mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Complemento"
-                  value={endereco.complemento}
-                  onChange={(e) =>
-                    setEndereco((prev) => ({
-                      ...prev,
-                      complemento: e.target.value,
-                    }))
-                  }
-                  required
-                />
-              </div>
+              {/* Mensagens de erro ou sucesso */}
+              {mensagemErro && <div className="alert alert-danger">{mensagemErro}</div>}
+              {mensagemSucesso && <div className="alert alert-success">{mensagemSucesso}</div>}
 
               {/* Aceitação dos Termos */}
               <div className="form-check mb-4 text-start">

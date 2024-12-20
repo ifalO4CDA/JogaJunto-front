@@ -19,6 +19,7 @@ import Perfil from './pages/perfil/perfilPage';
 import ReservaInformacoes from './pages/salas/reservaInformacoes';
 
 import ArenaInformacoes from './pages/arena/arenaInformacoes';
+import ArenasDisponiveis from './pages/arena/arenasTela';
 
 import CadastroUsuario from './pages/cadastro/cadastroUsuario';
 import CadastroDadosComplementares from './pages/cadastro/cadastroDadosComplementares';
@@ -54,6 +55,7 @@ function App() {
         <Route path="/salas" element={<SalasTelas />} />
 
         <Route path="/arena/:id" element={<ArenaInformacoes />} />
+        <Route path="/sala/:id_sala/arena" element={<ArenasDisponiveis />} />
 
         <Route path="/perfil" element={<Perfil />} />
 

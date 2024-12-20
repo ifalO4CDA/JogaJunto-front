@@ -36,12 +36,12 @@ export const SalasService = {
   getMembrosDaSala: async (id) => {
     try {
       const resposta = await api.get(`/rooms/${id}/users`);
-      return resposta.data;
+      return resposta.data.data; // Retorna somente o array de usuários
     } catch (error) {
       console.error("Erro ao buscar membros da sala:", error.response?.data || error.message);
-      throw error;
+      throw new Error(error.response?.data?.message || "Erro ao buscar membros da sala.");
     }
-  },
+  },  
 
   adicionarMembro: async (idSala, idUsuario) => {
     try {
@@ -54,4 +54,15 @@ export const SalasService = {
       throw error;
     }
   },
+
+  excluirSala: async (idSala) => {
+    try {
+      const resposta = await api.delete(`/rooms/${idSala}`);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao excluir sala:", error.response?.data || error.message);
+      throw error;
+    }
+  },
+  
 };

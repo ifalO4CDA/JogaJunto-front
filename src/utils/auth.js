@@ -33,5 +33,5 @@ export function iniciarLogoffAutomatico() {
 export function handleLogoff() {
   alert("Sua sessão expirou. Faça login novamente.");
   localStorage.clear();
-  window.location.href = "/login";
+  window.location.href = "/";
 }

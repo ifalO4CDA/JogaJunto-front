@@ -7,12 +7,13 @@ function CadastroGrupoModal({ show, handleClose }) {
   const [nomeGrupo, setNomeGrupo] = useState(""); // Nome do grupo
   const [maxIntegrantes, setMaxIntegrantes] = useState(20); // Máximo de integrantes, padrão inicial
   const [loading, setLoading] = useState(false); // Indica requisição em andamento
+  const [erro, setErro] = useState(null); // Mensagem de erro
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!nomeGrupo) {
-      alert("Por favor, preencha o nome do grupo.");
+      setErro("Por favor, preencha o nome do grupo.");
       return;
     }
 
@@ -26,13 +27,15 @@ function CadastroGrupoModal({ show, handleClose }) {
 
     try {
       setLoading(true);
-      const resposta = await GruposService.criarGrupo(dadosGrupo);
-      console.log("Grupo criado com sucesso:", resposta);
-      alert("Grupo criado com sucesso!");
-      handleClose(); // Fecha o modal após a criação do grupo
+      setErro(null); // Limpa erros anteriores
+      await GruposService.criarGrupo(dadosGrupo);
+      handleClose(); // Fecha o modal
+      window.location.href = "/grupos"; // Recarrega a página de grupos
     } catch (error) {
-      console.error("Erro ao criar grupo:", error);
-      alert("Erro ao criar o grupo. Tente novamente.");
+      setErro(
+        error.response?.data?.message ||
+          "Erro ao criar o grupo. Verifique os dados e tente novamente."
+      );
     } finally {
       setLoading(false);
     }
@@ -80,6 +83,9 @@ function CadastroGrupoModal({ show, handleClose }) {
               <span>{maxIntegrantes} integrantes</span>
             </div>
           </div>
+
+          {/* Mensagem de erro */}
+          {erro && <div className="alert alert-danger">{erro}</div>}
 
           {/* Botão de Envio */}
           <button

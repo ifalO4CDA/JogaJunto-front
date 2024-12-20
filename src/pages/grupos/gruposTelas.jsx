@@ -36,10 +36,9 @@ function GruposTela() {
               label: "Buscar Grupos",
               type: "text",
               placeholder: "Digite o nome do grupo",
-              onChange: (value) => console.log("Buscando:", value),
             },
           ]}
-          onSearch={() => console.log("Buscar Grupos")}
+          onSearch={() => ({})}
         />
       </div>
 

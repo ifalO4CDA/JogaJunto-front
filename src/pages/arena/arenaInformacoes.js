@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ArenaService } from "../../services/arenaService";
 import { ReservaService } from "../../services/reservaService";
@@ -8,6 +8,8 @@ import CadastroSalaModal from "../../components/cadastroSalaModal";
 
 const ArenaInformacoes = () => {
   const { id } = useParams();
+  const location = useLocation(); // Para acessar o estado da navegação
+  const idSalaInicial = location.state?.idSala || ""; // Pega o id_sala do estado ou usa vazio
   const [arenaData, setArenaData] = useState(null);
   const [salasSemReserva, setSalasSemReserva] = useState([]);
   const [novaReserva, setNovaReserva] = useState({
@@ -16,10 +18,11 @@ const ArenaInformacoes = () => {
     horario_inicio: "",
     horario_fim: "",
     valor_total: 0,
-    id_sala: "",
+    id_sala: idSalaInicial, // Inicializa com o id_sala se existir
   });
   const [showModalCriarSala, setShowModalCriarSala] = useState(false);
-  const [error, setError] = useState(false);
+  const [errorFetchArena, setErrorFetchArena] = useState(false);
+  const [errors, setErrors] = useState([]); // Lista de mensagens de erro
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,10 +35,9 @@ const ArenaInformacoes = () => {
         const salasDisponiveis = salasResponse.filter((sala) => !sala.reserva_ativa);
         setSalasSemReserva(salasDisponiveis);
 
-        setError(false);
-      } catch (err) {
-        console.error("Erro ao buscar informações:", err);
-        setError(true);
+        setErrorFetchArena(false);
+      } catch {
+        setErrorFetchArena(true);
       } finally {
         setLoading(false);
       }
@@ -52,8 +54,8 @@ const ArenaInformacoes = () => {
   const handleCriarReserva = async (e) => {
     e.preventDefault();
     try {
-      await ReservaService.criarReserva(novaReserva);
-      alert("Reserva criada com sucesso!");
+      const resposta = await ReservaService.criarReserva(novaReserva);
+      alert(resposta.message);
       setNovaReserva({
         id_quadra: parseInt(id, 10),
         data_reserva: "",
@@ -62,9 +64,10 @@ const ArenaInformacoes = () => {
         valor_total: 0,
         id_sala: "",
       });
+      setErrors([]); // Limpa os erros ao criar com sucesso
     } catch (error) {
-      console.error("Erro ao criar reserva:", error);
-      alert("Erro ao criar a reserva. Verifique os dados e tente novamente.");
+      const apiErrors = error.response?.data?.errors || [];
+      setErrors(apiErrors.map((err) => err.msg)); // Extrai mensagens de erro do retorno da API
     }
   };
 
@@ -101,15 +104,15 @@ const ArenaInformacoes = () => {
     comodidades: [],
   };
 
-  const dataToDisplay = error || !arenaData
+  const dataToDisplay = errorFetchArena || !arenaData
     ? placeholderData
     : {
-      ...arenaData,
-      esportes: arenaData.esportes || [],
-      comodidades: arenaData.comodidades || [],
-      endereco: arenaData.endereco || placeholderData.endereco,
-      proprietario: arenaData.proprietario || placeholderData.proprietario,
-    };
+        ...arenaData,
+        esportes: arenaData.esportes || [],
+        comodidades: arenaData.comodidades || [],
+        endereco: arenaData.endereco || placeholderData.endereco,
+        proprietario: arenaData.proprietario || placeholderData.proprietario,
+      };
 
   return (
     <div className="container mt-4">
@@ -271,6 +274,15 @@ const ArenaInformacoes = () => {
               <button type="submit" className="btn btn-primary w-100">
                 Criar Reserva
               </button>
+              {errors.length > 0 && (
+                <div className="alert alert-danger mt-3">
+                  {errors.map((error, index) => (
+                    <p key={index} className="mb-1">
+                      {error}
+                    </p>
+                  ))}
+                </div>
+              )}
             </form>
           </div>
         </div>

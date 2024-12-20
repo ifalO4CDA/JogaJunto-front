@@ -10,4 +10,14 @@ export const ReservaService = {
       throw error;
     }
   },
+
+  getReservaAtiva: async (idSala) => {
+    try {
+      const resposta = await api.get(`/reservation/ativa/${idSala}`);
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao buscar reserva ativa:", error.response?.data || error);
+      throw error;
+    }
+  },
 };

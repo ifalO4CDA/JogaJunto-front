@@ -45,4 +45,14 @@ export const GruposService = {
       throw error;
     }
   },
+
+  excluirGrupo: async (dados) => {
+    try {
+      const resposta = await api.delete(`/group/`, { data: dados });
+      return resposta.data;
+    } catch (error) {
+      console.error("Erro ao excluir grupo:", error.response?.data || error);
+      throw error;
+    }
+  },
 };

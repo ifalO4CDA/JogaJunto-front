@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { SalasService } from "../../services/salaService"; // Importa o service
-import { ReservaService } from "../../services/reservaService"; // Importa o serviço de reservas
+import { SalasService } from "../../services/salaService";
+import { ReservaService } from "../../services/reservaService";
 import "../../styles/pages/salas/salasInformacoes.css";
 
 function SalasInformacoes() {
@@ -11,48 +11,85 @@ function SalasInformacoes() {
   const [membros, setMembros] = useState([]); // Lista de membros
   const [novoMembro, setNovoMembro] = useState(""); // Estado para o ID do novo membro
   const [loading, setLoading] = useState(true); // Controle de carregamento
-  const [error, setError] = useState(null); // Controle de erros
-  const [reserva, setReserva] = useState(null); // Reserva associada à sala
+  const [errorSala, setErrorSala] = useState(null); // Erro ao buscar sala
+  const [errorMembros, setErrorMembros] = useState(null); // Erro ao buscar membros
+  const [errorReserva, setErrorReserva] = useState(null); // Erro ao buscar reserva
+  const [reserva, setReserva] = useState(null); // Dados da reserva ativa
+
+  const handleExcluirSala = async () => {
+    const confirmacao = window.confirm("Tem certeza de que deseja excluir esta sala?");
+    if (!confirmacao) return;
+
+    try {
+      await SalasService.excluirSala(id); // Requisição DELETE
+      navigate("/salas"); // Redireciona para a lista de salas
+    } catch (error) {
+      console.error("Erro ao excluir a sala:", error);
+      alert(error.response?.data?.message || "Erro ao excluir a sala. Tente novamente.");
+    }
+  };
 
   useEffect(() => {
-    const fetchDadosSala = async () => {
+    const fetchSala = async () => {
       try {
         const salaData = await SalasService.getSalaPorId(id);
-        setSala(salaData.data);
-
-        const membrosData = await SalasService.getMembrosDaSala(id);
-        setMembros(membrosData.data);
-
-        // Busca a reserva associada à sala (se existir)
-        if (salaData.data.reserva_ativa) {
-          const reservaData = await ReservaService.getReservasPorSala(id);
-          setReserva(reservaData.data);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Erro ao carregar os dados da sala:", error);
-        setError(error.message);
-        setLoading(false);
+        setSala(salaData);
+        setErrorSala(null);
+      } catch (err) {
+        console.error("Erro ao buscar informações da sala:", err);
+        setErrorSala("Erro ao carregar os dados da sala.");
       }
     };
 
-    fetchDadosSala();
+    const fetchMembros = async () => {
+      try {
+        const membrosData = await SalasService.getMembrosDaSala(id);
+        setMembros(membrosData);
+        setErrorMembros(null);
+      } catch (err) {
+        console.error("Erro ao buscar membros da sala:", err);
+        setErrorMembros("Erro ao carregar a lista de membros.");
+      }
+    };
+
+    const fetchReserva = async () => {
+      try {
+        const reservaData = await ReservaService.getReservaAtiva(id);
+        if (reservaData.data.length > 0) {
+          setReserva(reservaData.data[0]);
+        } else {
+          setReserva(null);
+        }
+        setErrorReserva(null);
+      } catch (err) {
+        console.error("Erro ao buscar reserva ativa:", err);
+        setErrorReserva("Erro ao carregar a reserva ativa.");
+      }
+    };
+
+    const fetchDados = async () => {
+      setLoading(true);
+      await fetchSala();
+      await fetchMembros();
+      await fetchReserva();
+      setLoading(false);
+    };
+
+    fetchDados();
   }, [id]);
 
   const handleAdicionarMembro = async () => {
     try {
-      if (!novoMembro) {
+      if (!novoMembro.trim()) {
         alert("Por favor, insira o ID do usuário.");
         return;
       }
 
-      const resposta = await SalasService.adicionarMembro(id, novoMembro);
-      console.log(resposta);
+      await SalasService.adicionarMembro(id, novoMembro);
 
       // Atualiza a lista de membros
       const membrosAtualizados = await SalasService.getMembrosDaSala(id);
-      setMembros(membrosAtualizados.data);
+      setMembros(membrosAtualizados);
       setNovoMembro(""); // Limpa o campo
     } catch (error) {
       console.error("Erro ao adicionar membro:", error);
@@ -61,37 +98,52 @@ function SalasInformacoes() {
   };
 
   const handleCriarReserva = () => {
-    navigate(`/salas/${id}/criar-reserva`);
+    navigate(`/sala/${id}/arena/${sala?.id_sala || ""}`); // Redireciona para a tela de seleção de quadras
   };
 
   if (loading) return <p>Carregando...</p>;
-  if (error) return <p>Erro: {error}</p>;
-  if (!sala) return <p>Erro ao carregar as informações da sala.</p>;
 
   return (
     <div className="container mt-4 sala-informacoes-container">
       {/* Header da Sala */}
       <div className="sala-header text-center">
         <h2>Detalhes da Sala</h2>
-        <h3>{sala.id_sala ? `Sala #${sala.id_sala}` : "Sala sem Nome"}</h3>
-        <p>{sala.privada ? "Privada" : "Pública"}</p>
-        {sala.criador && (
-          <p>
-            Criador: {sala.criador.nome} - {sala.criador.email}
-          </p>
+        {errorSala ? (
+          <p className="text-danger">{errorSala}</p>
+        ) : (
+          <>
+            <h3>{sala?.id_sala ? `Sala #${sala.id_sala}` : "Sala sem Nome"}</h3>
+            <p>{sala?.privada ? "Privada" : "Pública"}</p>
+            {sala?.criador && (
+              <p>
+                Criador: {sala.criador.nome} - {sala.criador.email}
+              </p>
+            )}
+          </>
         )}
       </div>
 
       {/* Reserva */}
       <div className="reserva-secao mb-4">
         <h5>Reserva</h5>
-        {sala.reserva_ativa ? (
-          <button
-            className="btn btn-info"
+        {errorReserva ? (
+          <p className="text-danger">{errorReserva}</p>
+        ) : reserva ? (
+          <div
+            className="card p-3 mb-3 shadow-sm reserva-card"
             onClick={() => navigate(`/reservas/${reserva.id_reserva}`)}
+            style={{ cursor: "pointer" }}
           >
-            Ver Detalhes da Reserva
-          </button>
+            <p>
+              <strong>Data:</strong> {reserva.data_reserva}
+            </p>
+            <p>
+              <strong>Horário:</strong> {reserva.horario_inicio} - {reserva.horario_fim}
+            </p>
+            <p>
+              <strong>Valor Total:</strong> R$ {parseFloat(reserva.valor_total).toFixed(2)}
+            </p>
+          </div>
         ) : (
           <button className="btn btn-success" onClick={handleCriarReserva}>
             Criar Reserva
@@ -119,7 +171,9 @@ function SalasInformacoes() {
       {/* Membros da Sala */}
       <div className="sala-membros mb-4">
         <h5>Membros da Sala</h5>
-        {membros.length > 0 ? (
+        {errorMembros ? (
+          <p className="text-danger">{errorMembros}</p>
+        ) : membros.length > 0 ? (
           <ul className="list-group">
             {membros.map((membro) => (
               <li
@@ -138,11 +192,10 @@ function SalasInformacoes() {
 
       {/* Botões de Ação */}
       <div className="botoes-acoes mt-4 text-center">
-        <button className="btn btn-danger mx-2">Excluir Sala</button>
-        <button
-          className="btn btn-secondary mx-2"
-          onClick={() => navigate("/")}
-        >
+        <button className="btn btn-danger mx-2" onClick={handleExcluirSala}>
+          Excluir Sala
+        </button>
+        <button className="btn btn-secondary mx-2" onClick={() => navigate("/salas")}>
           Voltar
         </button>
       </div>
